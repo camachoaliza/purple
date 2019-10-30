@@ -14,7 +14,7 @@
     <script defer src="/__/firebase/7.1.0/firebase-firestore.js"></script>
     <!-- initialize the SDK after all desired features are loaded -->
     <script defer src="/__/firebase/init.js"></script>
-    
+
     <!-- The core Firebase JS SDK is always required and must be listed first -->
     <!-- <script src="https://www.gstatic.com/firebasejs/7.0.0/firebase-app.js"></script> -->
 
@@ -44,15 +44,18 @@
       </button>
       <button id="sign-out" onclick="signOut(); hidden">
           Sign-out
-      </button> 
+      </button>
     </div>
     <div>
-      <h1 id="person_one"></h1>
+      <h2>People</h2>
+      <div id="people"></div>
+      <h2>Posts</h2>
+      <div id="posts"></div>
       <h1>ER Diagram</h1>
       <img src="er_dia.png" alt="" style="width: 600px;height: 500px;">
       <h1>Initial Design</h1>
       <img src="design-proto.png" alt="" style="width: 650px;height: 400px;">
-      <h1>Abstract</h1>  
+      <h1>Abstract</h1>
       <p>The app we have designed is called Purple, a platform that helps build bridges between groups of people with opposing opinions to encourage productive interactions. In our app, each user has a “color”, which represents the diversity and spectrum of opinions from news sources that they have digested.
           When a user reads an article from both liberal and conservative sources, their color becomes more purple, whereas if they consistently read opinions from the same viewpoint, their colors becomes more white. A user can also gain points when they are very active and read a lot of sources. The app encourages users to read opinions from both sides in order to make their color purple and earn points to top a leaderboard of users. Our app would scrape articles on different 2020 election topics from a set number of top news platforms, and it would label these articles on as very liberal, liberal, non-partisan, conservative, or very conservative. We would track which articles users read, and accordingly modify their color and points. Our app will also have a forum section where users can write about different issues and articles that they’ve read and engage in conversations with others on the platform.
       </p>
@@ -64,7 +67,7 @@
       <a href="https://purple-4ecfa.web.app/">Firebase link</a>
       <a href="https://github.com/camachoaliza/purple">Github</a>
     </div>
-    
+
     <script>
       // sign in and out functions
       function signIn() {
@@ -87,7 +90,7 @@
         // // 🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥
         // // The Firebase SDK is initialized and available here!
         //
-        
+
         firebase.auth().onAuthStateChanged(authStateObserver);
         // firebase.database().ref('/path/to/ref').on('value', snapshot => { });
         // firebase.messaging().requestPermission().then(() => { });
@@ -95,22 +98,33 @@
         //
         // // 🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥
         var db = firebase.firestore();
-          db.collection("people").doc("FezIgVYGAWzIaJ21Ofx3").onSnapshot(function(doc) {
-            document.getElementById("person_one").innerHTML = doc.data().name;
+        db.collection("people").get().then(function(querySnapshot) {
+          var s = "";
+          querySnapshot.forEach(function(doc) {
+            s += "<p>" + doc.data().name + "</p>";
+          });
+          document.getElementById("people").innerHTML = s;
         });
+
+        db.collection("posts").get().then(function(querySnapshot) {
+          var s = "";
+          querySnapshot.forEach(function(doc) {
+            s += "<p>" + doc.data().name + ": " + doc.data().text + "</p>";
+          });
+          document.getElementById("posts").innerHTML = s;
+        });
+
         try {
           let app = firebase.app();
-          
           let features = ['auth', 'database', 'messaging', 'storage'].filter(feature => typeof app[feature] === 'function');
           // document.getElementById('load').innerHTML = `Firebase SDK loaded with ${features.join(', ')}`;
-         
         } catch (e) {
           console.error(e);
           // document.getElementById('load').innerHTML = 'Error loading the Firebase SDK, check the console.';
         }
       });
-      
+
     </script>
-    
+
   </body>
 </html>
