@@ -52,15 +52,20 @@
           <li class="nav-item">
             <a class="nav-link js-scroll-trigger" href="">Read</a>
           </li>
-          <!-- <li class="nav-item">
-            <a class="nav-link js-scroll-trigger" href="profile">My Profile</a>
-          </li> -->
+          <li class="nav-item">
+            <a class="nav-link js-scroll-trigger" id="profile" href="">My Profile</a>
+          </li>
           <li class="nav-item">
             <a class="nav-link js-scroll-trigger" href="">Leaderboard</a>
           </li>
           <li class="nav-item">
-            <button class="" id="sign-out" onclick="signOut();">
+            <button class="" id="sign-out" onclick="signOut();"hidden>
                 Sign-out
+            </button>
+          </li>
+          <li class="nav-item">
+            <button class="btn btn-outline btn-xs js-scroll-trigger" id="sign-in" onclick="signIn();"hidden>
+              Sign-in
             </button>
           </li>
         </ul>
@@ -72,9 +77,10 @@
     <div class="container h-100">
       <div class="row h-100">
         <div class="col-lg-7 my-auto">
-          <a id="back-to-home" href="index.html" hidden>Back to Home</a>
           <div id="content" class="header-content mx-auto">
-            <h1> Hey, <span id="name"></span>!</h1>
+            <h1>Hey, <span id="name"></span>!</h1>
+            <div id=friends>
+            </div>
           </div>
         </div>
       </div>
@@ -89,15 +95,29 @@
         var vals = window.location.search.split("=");
         var db = firebase.firestore();
         db.collection("people").doc(vals[1]).onSnapshot(function (doc) {
-             document.getElementById("name").innerHTML = doc.data().name;
-         });
+          document.getElementById("name").innerHTML = doc.data().name;
+          var friendIds = doc.data().friends.split(",");
+          var friendsHTML = "Friends: ";
 
-     try {
-       	let app = firebase.app()
-        let features = ['auth', 'database', 'messaging', 'storage'] .filter(feature => typeof app[feature] === 'function');
-     } catch (e) {
-         console.error(e);
-     }
+          friendIds.forEach(function(friend) {
+            if (friend !== "") {
+              db.collection("people").doc(friend).onSnapshot(function(doc) {
+                friendsHTML += "<a href=\"profile.html?id=" + friend + "\">" + doc.data().name + "</a>";
+              });
+            }
+          });
+
+          setTimeout(function() {
+            document.getElementById("friends").innerHTML = friendsHTML;
+          }, 4000);
+        });
+
+        try {
+           	let app = firebase.app()
+            let features = ['auth', 'database', 'messaging', 'storage'] .filter(feature => typeof app[feature] === 'function');
+         } catch (e) {
+             console.error(e);
+         }
     });
   </script>
 

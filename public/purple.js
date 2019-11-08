@@ -1,5 +1,4 @@
 var id;
-var frontMessage = "Welcome to Purple! Compete with your friends to read, digest, and reflect on a diversity of sources on the 2020 Presidential Elections.";
 
 function signIn() {
   var provider = new firebase.auth.GoogleAuthProvider();
@@ -8,22 +7,20 @@ function signIn() {
 
 function signOut() {
   firebase.auth().signOut();
+  window.location.redirect("https://purple-4ecfa.firebaseapp.com/");
 }
 
 function authStateObserver(user) {
   if (user) { // User is signed in!
-      document.getElementById("sign-in").hidden = true;
-      document.getElementById("sign-in-header").hidden = true;
-      document.getElementById("sign-out").hidden = false;
       id = firebase.auth().currentUser.uid;
-      var name = firebase.auth().currentUser.displayName
-      document.getElementById("front-message").innerHTML = "Hi, " + name + "!";
-      document.getElementById("profile-link").hidden = false;
-      document.getElementById("profile-link").href = "profile.html?id=" + id;
+      document.getElementById("profile").href = "profile.html?id=" + id;
+      document.getElementById("sign-in").hidden = true;
+      document.getElementById("sign-out").hidden = false;
   } else { // User is signed out!
-      document.getElementById("content").innerHTML = "";
+      id = "";
+      document.getElementById("profile").href = id;
+      document.getElementById("sign-in").hidden = false;
       document.getElementById("sign-out").hidden = true;
-      document.getElementById("back-to-home").hidden = false;
   }
 }
 
