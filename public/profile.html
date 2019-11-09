@@ -53,10 +53,20 @@
             <a class="nav-link js-scroll-trigger" href="">Read</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link js-scroll-trigger" href="">My Profile</a>
+            <a class="nav-link js-scroll-trigger" id="profile" href="">My Profile</a>
           </li>
           <li class="nav-item">
             <a class="nav-link js-scroll-trigger" href="">Leaderboard</a>
+          </li>
+          <li class="nav-item">
+            <button class="" id="sign-out" onclick="signOut();"hidden>
+                Sign-out
+            </button>
+          </li>
+          <li class="nav-item">
+            <button class="btn btn-outline btn-xs js-scroll-trigger" id="sign-in" onclick="signIn();"hidden>
+              Sign-in
+            </button>
           </li>
         </ul>
       </div>
@@ -67,148 +77,49 @@
     <div class="container h-100">
       <div class="row h-100">
         <div class="col-lg-7 my-auto">
-          <div class="header-content mx-auto">
-            <h1 class="mb-5">Welcome to Purple! Compete with your friends to read, digest, and reflect on a diversity of sources on the 2020 Presidential Elections.</h1>
-            <!-- <a href="#download" class="btn btn-outline btn-xl js-scroll-trigger">Sign up/Log in</a> -->
-            <button class="btn btn-outline btn-xl js-scroll-trigger" id="sign-in" onclick="signIn(); hidden">
-              Sign-in
-            </button>
-            <button class="btn btn-outline btn-xl js-scroll-trigger" id="sign-out" onclick="signOut(); hidden">
-                Sign-out
-            </button>
-          </div>
-        </div>
-        <!-- <div class="col-lg-5 my-auto">
-          <div class="device-container">
-            <div class="device-mockup iphone6_plus portrait white">
-              <div class="device">
-                <div class="screen">
-                  Demo image for screen mockup, you can put an image here, some HTML, an animation, video, or anything else!
-                  <img src="img/demo-screen-1.jpg" class="img-fluid" alt="">
-                </div>
-                <div class="button">
-                  You can hook the "home button" to some JavaScript events or just remove it
-                </div>
-              </div>
+          <div id="content" class="header-content mx-auto">
+            <h1>Hey, <span id="name"></span>!</h1>
+            <div id=friends>
             </div>
           </div>
-        </div> -->
+        </div>
       </div>
     </div>
   </header>
-
-  <section class="download bg-primary text-center" id="download">
-    <div class="container">
-      <div class="row">
-        <div class="col-md-8 mx-auto">
-          <h2 class="section-heading">Discover what all the buzz is about!</h2>
-          <p>Our app is available on any mobile device! Download now to get started!</p>
-          <div class="badges">
-            <a class="badge-link" href="#"><img src="img/google-play-badge.svg" alt=""></a>
-            <a class="badge-link" href="#"><img src="img/app-store-badge.svg" alt=""></a>
-          </div>
-        </div>
-      </div>
-    </div>
+  <section>
   </section>
 
-  <section class="features" id="features">
-    <div class="container">
-      <div class="section-heading text-center">
-        <h2>Unlimited Features, Unlimited Fun</h2>
-        <p class="text-muted">Check out what you can do with this app theme!</p>
-        <hr>
-      </div>
-      <div class="row">
-        <div class="col-lg-4 my-auto">
-          <div class="device-container">
-            <div class="device-mockup iphone6_plus portrait white">
-              <div class="device">
-                <div class="screen">
-                  <!-- Demo image for screen mockup, you can put an image here, some HTML, an animation, video, or anything else! -->
-                  <img src="img/demo-screen-1.jpg" class="img-fluid" alt="">
-                </div>
-                <div class="button">
-                  <!-- You can hook the "home button" to some JavaScript events or just remove it -->
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-lg-8 my-auto">
-          <div class="container-fluid">
-            <div class="row">
-              <div class="col-lg-6">
-                <div class="feature-item">
-                  <i class="icon-screen-smartphone text-primary"></i>
-                  <h3>Device Mockups</h3>
-                  <p class="text-muted">Ready to use HTML/CSS device mockups, no Photoshop required!</p>
-                </div>
-              </div>
-              <div class="col-lg-6">
-                <div class="feature-item">
-                  <i class="icon-camera text-primary"></i>
-                  <h3>Flexible Use</h3>
-                  <p class="text-muted">Put an image, video, animation, or anything else in the screen!</p>
-                </div>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-lg-6">
-                <div class="feature-item">
-                  <i class="icon-present text-primary"></i>
-                  <h3>Free to Use</h3>
-                  <p class="text-muted">As always, this theme is free to download and use for any purpose!</p>
-                </div>
-              </div>
-              <div class="col-lg-6">
-                <div class="feature-item">
-                  <i class="icon-lock-open text-primary"></i>
-                  <h3>Open Source</h3>
-                  <p class="text-muted">Since this theme is MIT licensed, you can use it commercially!</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        firebase.auth().onAuthStateChanged(authStateObserver);
+        var vals = window.location.search.split("=");
+        var db = firebase.firestore();
+        db.collection("people").doc(vals[1]).onSnapshot(function (doc) {
+          document.getElementById("name").innerHTML = doc.data().name;
+          var friendIds = doc.data().friends.split(",");
+          var friendsHTML = "Friends: ";
 
-  <section class="cta">
-    <div class="cta-content">
-      <div class="container">
-        <h2>Stop waiting.<br>Start building.</h2>
-        <a href="#contact" class="btn btn-outline btn-xl js-scroll-trigger">Let's Get Started!</a>
-      </div>
-    </div>
-    <div class="overlay"></div>
-  </section>
+          friendIds.forEach(function(friend) {
+            if (friend !== "") {
+              db.collection("people").doc(friend).onSnapshot(function(doc) {
+                friendsHTML += "<a href=\"profile.html?id=" + friend + "\">" + doc.data().name + "</a>";
+              });
+            }
+          });
 
-  <section class="contact bg-primary" id="contact">
-    <div class="container">
-      <h2>We
-        <i class="fas fa-heart"></i>
-        new friends!</h2>
-      <ul class="list-inline list-social">
-        <li class="list-inline-item social-twitter">
-          <a href="#">
-            <i class="fab fa-twitter"></i>
-          </a>
-        </li>
-        <li class="list-inline-item social-facebook">
-          <a href="#">
-            <i class="fab fa-facebook-f"></i>
-          </a>
-        </li>
-        <li class="list-inline-item social-google-plus">
-          <a href="#">
-            <i class="fab fa-google-plus-g"></i>
-          </a>
-        </li>
-      </ul>
-    </div>
-  </section>
+          setTimeout(function() {
+            document.getElementById("friends").innerHTML = friendsHTML;
+          }, 4000);
+        });
+
+        try {
+           	let app = firebase.app()
+            let features = ['auth', 'database', 'messaging', 'storage'] .filter(feature => typeof app[feature] === 'function');
+         } catch (e) {
+             console.error(e);
+         }
+    });
+  </script>
 
   <footer>
     <div class="container">

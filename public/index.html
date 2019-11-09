@@ -53,10 +53,20 @@
             <a class="nav-link js-scroll-trigger" href="">Read</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link js-scroll-trigger" href="profile">My Profile</a>
+            <a class="nav-link js-scroll-trigger" id="profile" href="">My Profile</a>
           </li>
           <li class="nav-item">
             <a class="nav-link js-scroll-trigger" href="">Leaderboard</a>
+          </li>
+          <li class="nav-item">
+            <button class="btn btn-outline btn-xs js-scroll-trigger" id="sign-out" onclick="signOut();" hidden>
+                Sign-out
+            </button>
+          </li>
+          <li class="nav-item">
+            <button class="btn btn-outline btn-xs js-scroll-trigger" id="sign-in" onclick="signIn();" hidden>
+              Sign-in
+            </button>
           </li>
         </ul>
       </div>
@@ -68,20 +78,9 @@
       <div class="row h-100">
         <div class="col-lg-7 my-auto">
           <div class="header-content mx-auto">
-            <h1 class="mb-5">Welcome to Purple! Compete with your friends to read, digest, and reflect on a diversity of sources on the 2020 Presidential Elections.</h1>
+            <h1 class="mb-5" id="front-message">Welcome to Purple! Compete with your friends to read, digest, and reflect on a diversity of sources on the 2020 Presidential Elections.</h1>
             <!-- <a href="#download" class="btn btn-outline btn-xl js-scroll-trigger">Sign up/Log in</a> -->
-            <button class="btn btn-outline btn-xl js-scroll-trigger" id="sign-in" onclick="signIn(); hidden">
-              Sign-in
-            </button>
-            <button class="btn btn-outline btn-xl js-scroll-trigger" id="sign-out" onclick="signOut(); hidden">
-                Sign-out
-            </button>
-            <div id="people-card">
-                <br>
-                  Name: <span id="name"></span>
-                <p>
-                  City: <span id="city"></span>
-            </div>
+            <a id="profile-link" href="" hidden>My Profile</a>
           </div>
         </div>
         <!-- <div class="col-lg-5 my-auto">
@@ -244,5 +243,4 @@
   <script src="js/new-age.min.js"></script>
   <script src="purple.js"></script>
 </body>
-
 </html>
