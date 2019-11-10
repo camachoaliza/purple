@@ -19,12 +19,15 @@
   <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css?family=Catamaran:100,200,300,400,500,600,700,800,900" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css?family=Muli" rel="stylesheet">
+  <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://allyoucan.cloud/cdn/icofont/1.0.1/icofont.css" integrity="sha384-jbCTJB16Q17718YM9U22iJkhuGbS0Gd2LjaWb4YJEZToOPm">
 
   <!-- Plugin CSS -->
   <link rel="stylesheet" href="device-mockups/device-mockups.min.css">
 
   <!-- Custom styles for this template -->
-  <link href="css/new-age.min.css" rel="stylesheet">
+  <link href="css/profile_style.css" rel="stylesheet">
   <!-- update the version number as needed -->
   <script defer src="/__/firebase/7.1.0/firebase-app.js"></script>
   <!-- include only the Firebase features as you need -->
@@ -35,6 +38,8 @@
   <script defer src="/__/firebase/7.1.0/firebase-firestore.js"></script>
   <!-- initialize the SDK after all desired features are loaded -->
   <script defer src="/__/firebase/init.js"></script>
+  <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+  <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
 </head>
 
 <body id="page-top">
@@ -58,7 +63,7 @@
           <li class="nav-item">
             <a class="nav-link js-scroll-trigger" id="profile" href="">My Profile</a>
           </li>
-          <li class="nav-item">
+          <li class="nav-item" font color = "blue">
             <a class="nav-link js-scroll-trigger" href="">Leaderboard</a>
           </li>
           <li class="nav-item">
@@ -76,7 +81,7 @@
     </div>
   </nav>
 
-  <header class="masthead">
+  <!-- <header class="masthead">
     <div class="container h-100">
       <div class="row h-100">
         <div class="col-lg-7 my-auto">
@@ -88,9 +93,199 @@
         </div>
       </div>
     </div>
-  </header>
+  </header> -->
   <section>
+    <div class="container">
+    <div class="row profile">
+		<div class="col-md-3">
+			<div class="profile-sidebar">
+				<!-- SIDEBAR USERPIC -->
+				<div class="profile-userpic">
+					<img src="img/profile_icon.jpeg" class="img-responsive" alt="">
+				</div>
+				<!-- END SIDEBAR USERPIC -->
+				<!-- SIDEBAR USER TITLE -->
+				<div class="profile-usertitle">
+					<div class="profile-usertitle-name">
+						<h1><span id="name"></span>!</h1>
+					</div>
+					<div class="profile-usertitle-job">
+						Developer
+					</div>
+				</div>
+				<!-- END SIDEBAR USER TITLE -->
+				<!-- SIDEBAR BUTTONS -->
+				<div class="profile-userbuttons">
+					<button type="button" class="btn btn-secondary btn-sm">Edit My Profile</button>
+					<!-- <button type="button" class="btn btn-danger btn-sm">Message</button> -->
+				</div>
+				<!-- END SIDEBAR BUTTONS -->
+				<!-- SIDEBAR MENU -->
+				<div class="profile-usermenu">
+					<ul class="nav">
+						<li class="active">
+							<a href="#">
+							<i class="glyphicon glyphicon-home"></i>
+							Overview </a>
+						</li>
+						<li>
+							<a href="#">
+							<i class="glyphicon glyphicon-user"></i>
+							Account Settings </a>
+						</li>
+						<li>
+							<a href="#" target="_blank">
+							<i class="glyphicon glyphicon-ok"></i>
+							Tasks </a>
+						</li>
+						<li>
+							<a href="#">
+							<i class="glyphicon glyphicon-flag"></i>
+							Help </a>
+						</li>
+					</ul>
+				</div>
+				<!-- END MENU -->
+  			</div>
+  		</div>
+
+  		<div class="col-md-9">
+              <div class="profile-content">
+                <!-- <h1>Hi, <span id="name"></span></h1> -->
+                <div class="recent_activity">
+                  <div class="row">
+                      <div class="col-xl-6 col-md-12">
+                          <div class="card latest-update-card">
+                              <div class="card-header">
+                                  <h5>Your Recent Activity</h5>
+                                  <div class="card-header-right">
+                                      <ul class="list-unstyled card-option">
+                                          <li><i class="fa fa fa-wrench open-card-option"></i></li>
+                                          <li><i class="fa fa-window-maximize full-card"></i></li>
+                                          <li><i class="fa fa-minus minimize-card"></i></li>
+                                          <li><i class="fa fa-refresh reload-card"></i></li>
+                                          <li><i class="fa fa-trash close-card"></i></li>
+                                      </ul>
+                                  </div>
+                              </div>
+                              <div class="card-block">
+                                  <div class="latest-update-box">
+                                      <div class="row p-t-20 p-b-30">
+                                          <div class="col-auto text-right update-meta">
+                                              <p class="text-muted m-b-0 d-inline">2 hrs ago</p>
+                                              <i class="fa fa-twitter bg-twitter update-icon"></i>
+                                          </div>
+                                          <div class="col">
+                                              <h6>+ 1652 Followers</h6>
+                                              <p class="text-muted m-b-0">You’re getting more and more followers, keep it up!</p>
+                                          </div>
+                                      </div>
+                                      <div class="row p-b-30">
+                                          <div class="col-auto text-right update-meta">
+                                              <p class="text-muted m-b-0 d-inline">4 hrs ago</p>
+                                              <i class="fa fa-briefcase bg-c-red update-icon"></i>
+                                          </div>
+                                          <div class="col">
+                                              <h6>+ 5 New Products were added!</h6>
+                                              <p class="text-muted m-b-0">Congratulations!</p>
+                                          </div>
+                                      </div>
+                                      <div class="row p-b-30">
+                                          <div class="col-auto text-right update-meta">
+                                              <p class="text-muted m-b-0 d-inline">1 day ago</p>
+                                              <i class="fa fa-check bg-c-green update-icon"></i>
+                                          </div>
+                                          <div class="col">
+                                              <h6>Database backup completed!</h6>
+                                              <p class="text-muted m-b-0">Download the <span class="text-c-blue"> <a href="#!" class="text-c-blue">latest backup</a> </span>.</p>
+                                          </div>
+                                      </div>
+                                      <div class="row p-b-0">
+                                          <div class="col-auto text-right update-meta">
+                                              <p class="text-muted m-b-0 d-inline">2 day ago</p>
+                                              <i class="fa fa-facebook bg-facebook update-icon"></i>
+                                          </div>
+                                          <div class="col">
+                                              <h6>+2 Friend Requests</h6>
+                                              <p class="text-muted m-b-10">This is great, keep it up!</p>
+                                              <div class="table-responsive">
+                                                  <table class="table table-hover">
+                                                      <tbody>
+                                                          <tr>
+                                                              <td class="b-none">
+                                                                  <a href="#!" class="align-middle">
+                                                                      <img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="user image" class="img-radius img-40 align-top m-r-15">
+                                                                      <div class="d-inline-block">
+                                                                          <h6>Jeny William</h6>
+                                                                          <p class="text-muted m-b-0">Graphic Designer</p>
+                                                                      </div>
+                                                                  </a>
+                                                              </td>
+                                                          </tr>
+                                                          <tr>
+                                                              <td class="b-none">
+                                                                  <a href="#!" class="align-middle">
+                                                                      <img src="https://bootdey.com/img/Content/avatar/avatar6.png" alt="user image" class="img-radius img-40 align-top m-r-15">
+                                                                      <div class="d-inline-block">
+                                                                          <h6>John Deo</h6>
+                                                                          <p class="text-muted m-b-0">Web Designer</p>
+                                                                      </div>
+                                                                  </a>
+                                                              </td>
+                                                          </tr>
+                                                      </tbody>
+                                                  </table>
+                                              </div>
+                                          </div>
+                                      </div>
+                                  </div>
+                                  <div class="text-center">
+                                      <a href="#!" class="b-b-primary text-primary">View all activity</a>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+              </div>
+  		</div>
+    	</div>
+    </div>
   </section>
+
+  <!-- FRIENDS LIST -->
+  <div class="friends_list">
+    <div class="friends_row">
+        <div class="col-md-8">
+          <h4>Your friends</h4>
+            <div class="people-nearby">
+              <div class="nearby-user">
+                <div class="friends_row_item">
+                  <div class="col-md-2 col-sm-2">
+                    <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="user" class="profile-photo-lg">
+                  </div>
+                  <div class="col-md-7 col-sm-7">
+                    <h5><a href="#" class="profile-link">Sophia Page</a></h5>
+                    <p>Software Engineer</p>
+                  </div>
+                </div>
+              </div>
+              <div class="nearby-user">
+               <div class="friends_row_item">
+                 <div class="col-md-2 col-sm-2">
+                   <img src="https://bootdey.com/img/Content/avatar/avatar5.png" alt="user" class="profile-photo-lg">
+                 </div>
+                 <div class="col-md-7 col-sm-7">
+                   <h5><a href="#" class="profile-link">Nora Wilson</a></h5>
+                   <p>Writer at Newspaper</p>
+                 </div>
+               </div>
+              </div>
+            </div>
+            <h5 class="b-b-primary text-primary view_all_friends">View all friends</h5>
+        </div>
+       </div>
+  </div>
 
   <script>
     document.addEventListener('DOMContentLoaded', function() {
@@ -122,6 +317,7 @@
              console.error(e);
          }
     });
+
   </script>
 
   <footer>
