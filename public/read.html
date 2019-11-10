@@ -76,20 +76,15 @@
     </div>
   </nav>
 
-  <header class="masthead">
-    <div class="container h-100">
-      <div class="row h-100">
-        <div class="col-lg-7 my-auto">
-          <div id="content" class="header-content mx-auto">
-            <h1>Hey, <span id="name"></span>!</h1>
-            <div id=friends>
-            </div>
-          </div>
+  <section class="download bg-primary" id="download">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-8">
+          <h1 class="section-heading">News Feed</h1>
+          <div id="posts"></div>
         </div>
       </div>
     </div>
-  </header>
-  <section>
   </section>
 
   <script>
@@ -97,23 +92,29 @@
         firebase.auth().onAuthStateChanged(authStateObserver);
         var vals = window.location.search.split("=");
         var db = firebase.firestore();
-        db.collection("people").doc(vals[1]).onSnapshot(function (doc) {
-          document.getElementById("name").innerHTML = doc.data().name;
-          var friendIds = doc.data().friends.split(",");
-          var friendsHTML = "Friends: ";
+        var friendIds;
 
-          friendIds.forEach(function(friend) {
-            if (friend !== "") {
-              db.collection("people").doc(friend).onSnapshot(function(doc) {
-                friendsHTML += "<a href=\"profile.html?id=" + friend + "\">" + doc.data().name + "</a>";
-              });
+        db.collection("people").doc(vals[1]).onSnapshot(function (doc) {
+           friendIds = doc.data().friends.split(",");
+        });
+
+
+        var posts = "";
+        db.collection("posts").get().then(function(querySnapshot) {
+          console.log(friendIds);
+
+          querySnapshot.forEach(function(doc) {
+            console.log(doc.data().text);
+            var poster = doc.data().p_id;
+            if (friendIds.indexOf(poster) != -1) {
+              posts += doc.data().name + ": " + doc.data().text + "<br>";
             }
           });
-
-          setTimeout(function() {
-            document.getElementById("friends").innerHTML = friendsHTML;
-          }, 4000);
         });
+
+        setTimeout(function() {
+          document.getElementById("posts").innerHTML = posts;
+        }, 5000);
 
         try {
            	let app = firebase.app()
