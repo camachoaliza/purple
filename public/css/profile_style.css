@@ -367,7 +367,7 @@ footer {
   text-align: center;
   color: rgba(255, 255, 255, 0.3);
   background-color: #222222;
-  /* margin-top: 50px; */
+  margin-top: 200px;
 }
 
 footer p {
@@ -747,25 +747,22 @@ h6 {
 
 .container-nav {
   /* margin-left: 600px; */
-  margin-top: -15px;
+  margin-top: -10px;
 }
 
 #navbarResponsive {
-  margin-left: 600px;
+  margin-left: 800px;
 }
 
 .nav {
   width: 300px;
 }
 
-.nav ul {
-  border-style: solid;
-}
 
 #friends {
   margin-left: -300px;
   background-color: white;
-  margin-top: -380px;
+  margin-top: -275px;
   width: 46%;
   padding: 5px;
 }
