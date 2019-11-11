@@ -97,7 +97,7 @@
   <section>
     <div class="container-profile">
     <div class="row profile">
-		<div class="col-md-3">
+		<div class="col-md-3" style="height: 50%;">
 			<div class="profile-sidebar">
 				<!-- SIDEBAR USERPIC -->
 				<div class="profile-userpic">
@@ -116,8 +116,8 @@
 				<!-- END SIDEBAR USER TITLE -->
 				<!-- SIDEBAR BUTTONS -->
 				<div class="profile-userbuttons">
-					<button type="button" class="btn btn-secondary btn-sm">Edit My Profile</button>
-					<!-- <button type="button" class="btn btn-danger btn-sm">Message</button> -->
+					<button type="button" id="editMyProfile" class="btn btn-secondary btn-sm">Edit My Profile</button>
+					<button type="button" id="addFriend" class="btn btn-primary btn-sm" onclick="addFriend()">Add Friend</button>
 				</div>
 				<!-- END SIDEBAR BUTTONS -->
 				<!-- SIDEBAR MENU -->
@@ -216,7 +216,7 @@
                                                                   <a href="#!" class="align-middle">
                                                                       <img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="user image" class="img-radius img-40 align-top m-r-15">
                                                                       <div class="d-inline-block">
-                                                                          <h6>Jeny William</h6>
+                                                                          <a href= "profile.html?id=PNw1eSh4LK2NNXWGwzvV"><h6>Jeny William</h6></a>
                                                                           <p class="text-muted m-b-0">Graphic Designer</p>
                                                                       </div>
                                                                   </a>
@@ -227,7 +227,7 @@
                                                                   <a href="#!" class="align-middle">
                                                                       <img src="https://bootdey.com/img/Content/avatar/avatar6.png" alt="user image" class="img-radius img-40 align-top m-r-15">
                                                                       <div class="d-inline-block">
-                                                                          <h6>John Deo</h6>
+                                                                          <a href= 'profile.html?id=bEhc50tvYfZtYcf5Tyg2'><h6>John Deo</h6></a>
                                                                           <p class="text-muted m-b-0">Web Designer</p>
                                                                       </div>
                                                                   </a>
@@ -294,7 +294,44 @@
        </div>
   </div> -->
 
+  <footer>
+    <div class="container-footer">
+      <p>&copy; Your Website 2019. All Rights Reserved.</p>
+      <ul class="list-inline">
+        <li class="list-inline-item">
+          <a href="#">Privacy</a>
+        </li>
+        <li class="list-inline-item">
+          <a href="#">Terms</a>
+        </li>
+        <li class="list-inline-item">
+          <a href="#">FAQ</a>
+        </li>
+      </ul>
+    </div>
+  </footer>
+
   <script>
+  var currUserId;
+
+  function addFriend() {
+    // document.getElementById("addFriend").innerHTML = "<button type='button' id='success' class='btn btn-success btn-sm'>Success</button>";
+    document.getElementById("addFriend").classList = 'btn btn-success btn-sm';
+    document.getElementById("addFriend").innerText = "Added";
+
+    // var vals = window.location.search.split("=");
+    var db = firebase.firestore();
+
+    // db.collection("people").doc(vals[1]).onSnapshot(function (doc) {
+    // document.getElementById("name").innerHTML = doc.data().name;
+    // var friendIds = doc.data().friends.split(",");
+    // var friendsHTML = "Friends: ";
+    // console.log(doc.id);
+
+    // document.getElementById("addFriend").innerHTML.className = "btn btn-success btn-sm";
+
+  }
+
     document.addEventListener('DOMContentLoaded', function() {
         firebase.auth().onAuthStateChanged(authStateObserver);
         var vals = window.location.search.split("=");
@@ -307,7 +344,8 @@
           friendIds.forEach(function(friend) {
             if (friend !== "") {
               db.collection("people").doc(friend).onSnapshot(function(doc) {
-                friendsHTML += "<a href=\"profile.html?id=" + friend + "\">" + doc.data().name + "</a>";
+                friendsHTML += "<a href=\"profile.html?id=" + doc.id + "\"/>" + doc.data().name + "</a>" + ",";
+
               });
             }
           });
@@ -325,24 +363,9 @@
          }
     });
 
-  </script>
+    //firebase.auth.currentUser
 
-  <footer>
-    <div class="container-footer">
-      <p>&copy; Your Website 2019. All Rights Reserved.</p>
-      <ul class="list-inline">
-        <li class="list-inline-item">
-          <a href="#">Privacy</a>
-        </li>
-        <li class="list-inline-item">
-          <a href="#">Terms</a>
-        </li>
-        <li class="list-inline-item">
-          <a href="#">FAQ</a>
-        </li>
-      </ul>
-    </div>
-  </footer>
+  </script>
 
   <!-- Bootstrap core JavaScript -->
   <script src="vendor/jquery/jquery.min.js"></script>
