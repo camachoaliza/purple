@@ -46,7 +46,7 @@
 
   <!-- Navigation -->
   <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
-    <div class="container">
+    <div class="container-nav">
       <a class="navbar-brand js-scroll-trigger" href="#page-top">Purple</a>
       <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
         Menu
@@ -92,7 +92,7 @@
     </div>
   </header> -->
   <section>
-    <div class="container">
+    <div class="container-profile">
     <div class="row profile">
 		<div class="col-md-3">
 			<div class="profile-sidebar">
@@ -104,7 +104,7 @@
 				<!-- SIDEBAR USER TITLE -->
 				<div class="profile-usertitle">
 					<div class="profile-usertitle-name">
-						<h1><span id="name"></span>!</h1>
+						<h1><span id="name"></span></h1>
 					</div>
 					<div class="profile-usertitle-job">
 						Developer
@@ -170,37 +170,37 @@
                                       <div class="row p-t-20 p-b-30">
                                           <div class="col-auto text-right update-meta">
                                               <p class="text-muted m-b-0 d-inline">2 hrs ago</p>
-                                              <i class="fa fa-twitter bg-twitter update-icon"></i>
+                                              <i class="fa far fa-newspaper bg-twitter update-icon"></i>
                                           </div>
                                           <div class="col">
-                                              <h6>+ 1652 Followers</h6>
-                                              <p class="text-muted m-b-0">You’re getting more and more followers, keep it up!</p>
+                                              <h6>CNN +5 points</h6>
+                                              <p class="text-muted m-b-0">Nikki Haley says top Trump aides tried to recruit her to undermine president</p>
                                           </div>
                                       </div>
                                       <div class="row p-b-30">
                                           <div class="col-auto text-right update-meta">
                                               <p class="text-muted m-b-0 d-inline">4 hrs ago</p>
-                                              <i class="fa fa-briefcase bg-c-red update-icon"></i>
+                                              <i class="fa fas fa-video bg-c-red update-icon"></i>
                                           </div>
                                           <div class="col">
-                                              <h6>+ 5 New Products were added!</h6>
-                                              <p class="text-muted m-b-0">Congratulations!</p>
+                                              <h6>Fox News +5 points</h6>
+                                              <p class="text-muted m-b-0">Fox News Sunday with Chris Wallace</p>
                                           </div>
                                       </div>
                                       <div class="row p-b-30">
                                           <div class="col-auto text-right update-meta">
                                               <p class="text-muted m-b-0 d-inline">1 day ago</p>
-                                              <i class="fa fa-check bg-c-green update-icon"></i>
+                                              <i class="fas fa-lock-open bg-c-green update-icon"></i>
                                           </div>
                                           <div class="col">
-                                              <h6>Database backup completed!</h6>
-                                              <p class="text-muted m-b-0">Download the <span class="text-c-blue"> <a href="#!" class="text-c-blue">latest backup</a> </span>.</p>
+                                              <h6>New level unlocked!</h6>
+                                              <p class="text-muted m-b-0">You have now achieved level lavender.</p>
                                           </div>
                                       </div>
                                       <div class="row p-b-0">
                                           <div class="col-auto text-right update-meta">
                                               <p class="text-muted m-b-0 d-inline">2 day ago</p>
-                                              <i class="fa fa-facebook bg-facebook update-icon"></i>
+                                              <i class="fa fas fa-user-plus bg-facebook update-icon"></i>
                                           </div>
                                           <div class="col">
                                               <h6>+2 Friend Requests</h6>
@@ -250,8 +250,15 @@
     </div>
   </section>
 
+
   <!-- FRIENDS LIST -->
-  <div class="friends_list">
+  <div id="content" class="header-content mx-auto">
+    <div id=friends>
+      Your friends
+    </div>
+  </div>
+
+  <!-- <div class="friends_list">
     <div class="friends_row">
         <div class="col-md-8">
           <h4>Your friends</h4>
@@ -282,7 +289,7 @@
             <h5 class="b-b-primary text-primary view_all_friends">View all friends</h5>
         </div>
        </div>
-  </div>
+  </div> -->
 
   <script>
     document.addEventListener('DOMContentLoaded', function() {
@@ -317,8 +324,8 @@
 
   </script>
 
-  <footer>
-    <div class="container">
+  <!-- <footer>
+    <div class="container-footer">
       <p>&copy; Your Website 2019. All Rights Reserved.</p>
       <ul class="list-inline">
         <li class="list-inline-item">
@@ -332,7 +339,7 @@
         </li>
       </ul>
     </div>
-  </footer>
+  </footer> -->
 
   <!-- Bootstrap core JavaScript -->
   <script src="vendor/jquery/jquery.min.js"></script>
