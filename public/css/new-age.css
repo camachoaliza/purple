@@ -1,4 +1,4 @@
-/*!
+background-color: #eaeaea/*!
  * Start Bootstrap - New Age v5.0.7 (https://startbootstrap.com/template-overviews/new-age)
  * Copyright 2013-2019 Start Bootstrap
  * Licensed under MIT (https://github.com/BlackrockDigital/startbootstrap-new-age/blob/master/LICENSE)
@@ -15,12 +15,12 @@ body {
 }
 
 a {
-  color: #b052fd;
+  color: black;
   transition: all .35s;
 }
 
 a:hover, a:focus {
-  color: #7120fc;
+  color: #b052fd;
 }
 
 hr {
@@ -117,18 +117,18 @@ section h2 {
     background-color: transparent;
   }
   #mainNav .navbar-brand {
-    color: fade(white, 70%);
+    color: fade(#b052fd, 70%);
   }
   #mainNav .navbar-brand:hover, #mainNav .navbar-brand:focus {
-    color: white;
+    color: #b052fd;
   }
   #mainNav .navbar-nav > li > a,
   #mainNav .navbar-nav > li > a:focus {
-    color: rgba(255, 255, 255, 0.7);
+    color: black;
   }
   #mainNav .navbar-nav > li > a:hover,
   #mainNav .navbar-nav > li > a:focus:hover {
-    color: white;
+    color: #b052fd;
   }
   #mainNav.navbar-shrink {
     border-color: rgba(34, 34, 34, 0.1);

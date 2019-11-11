@@ -42,7 +42,7 @@
   <!-- Navigation -->
   <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
     <div class="container">
-      <a class="navbar-brand js-scroll-trigger" href="#page-top">Purple</a>
+      <a class="navbar-brand js-scroll-trigger" href="index.html">Purple</a>
       <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
         Menu
         <i class="fas fa-bars"></i>
@@ -50,7 +50,7 @@
       <div class="collapse navbar-collapse" id="navbarResponsive">
         <ul class="navbar-nav ml-auto">
           <li class="nav-item">
-            <a class="nav-link js-scroll-trigger" href="">Read</a>
+            <a class="nav-link js-scroll-trigger" href="read.html">Read</a>
           </li>
           <li class="nav-item">
             <a class="nav-link js-scroll-trigger" id="forum" href="">Forum</a>
@@ -76,52 +76,52 @@
     </div>
   </nav>
 
-  <section class="download bg-primary" id="download">
+  <header class="masthead">
     <div class="container">
       <div class="row">
-        <div class="col-md-8">
-          <h1 class="section-heading">News Feed</h1>
-          <div id="posts"></div>
+        <h2 class="section-heading">Read About the 2020 Elections</h2>
+      </div>
+      <div class="row">
+        <div class="col-md-4">
+          <h1>Left-Leaning News Sources</h1>
+          <div id="nyt">
+            <h3>New York Times</h3>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <h1>Centrist News Sources</h1>
+          <div id="cnn">
+            <h3>CNN</h3>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <h1>Right-Leaning News Sources</h1>
+          <div id="fox">
+            <h3>Fox News</h3>
+          </div>
         </div>
       </div>
     </div>
-  </section>
+  </header>
 
-  <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        firebase.auth().onAuthStateChanged(authStateObserver);
-        var vals = window.location.search.split("=");
-        var db = firebase.firestore();
-        var friendIds;
-
-        db.collection("people").doc(vals[1]).onSnapshot(function (doc) {
-           friendIds = doc.data().friends.split(",");
-        });
-
-
-        var posts = "";
-        db.collection("posts").get().then(function(querySnapshot) {
-          console.log(friendIds);
-
-          querySnapshot.forEach(function(doc) {
-            console.log(doc.data().text);
-            var poster = doc.data().p_id;
-            if (friendIds.indexOf(poster) != -1) {
-              posts += doc.data().name + ": " + doc.data().text + "<br>";
-            }
-          });
-        });
-
-        setTimeout(function() {
-          document.getElementById("posts").innerHTML = posts;
-        }, 5000);
-
-        try {
-           	let app = firebase.app()
-            let features = ['auth', 'database', 'messaging', 'storage'] .filter(feature => typeof app[feature] === 'function');
-         } catch (e) {
-             console.error(e);
-         }
+  <script type="text/javascript">
+    function readTextFile(file) {
+      var allText;
+      var rawFile = new XMLHttpRequest();
+      rawFile.open("GET", file, false);
+      rawFile.onreadystatechange = function () {
+          if (rawFile.readyState === 4) {
+              if(rawFile.status === 200 || rawFile.status == 0) {
+                  allText = rawFile.responseText;
+              }
+          }
+      }
+      rawFile.send(null);
+      return allText.split("\n");
+    }
+    var links = readTextFile("cnnLinks.txt");
+    links.forEach(function(link) {
+      document.getElementById("cnn").innerHTML += "<a href=\"" + link + "\">" + link + "</a><br>";
     });
   </script>
 

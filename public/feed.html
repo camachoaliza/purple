@@ -22,9 +22,11 @@
 
   <!-- Plugin CSS -->
   <link rel="stylesheet" href="device-mockups/device-mockups.min.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 
   <!-- Custom styles for this template -->
   <link href="css/new-age.min.css" rel="stylesheet">
+  <link href="css/post.css" rel="stylesheet">
   <!-- update the version number as needed -->
   <script defer src="/__/firebase/7.1.0/firebase-app.js"></script>
   <!-- include only the Firebase features as you need -->
@@ -42,7 +44,7 @@
   <!-- Navigation -->
   <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
     <div class="container">
-      <a class="navbar-brand js-scroll-trigger" href="#page-top">Purple</a>
+      <a class="navbar-brand js-scroll-trigger" href="index.html">Purple</a>
       <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
         Menu
         <i class="fas fa-bars"></i>
@@ -50,7 +52,7 @@
       <div class="collapse navbar-collapse" id="navbarResponsive">
         <ul class="navbar-nav ml-auto">
           <li class="nav-item">
-            <a class="nav-link js-scroll-trigger" href="">Read</a>
+            <a class="nav-link js-scroll-trigger" href="read.html">Read</a>
           </li>
           <li class="nav-item">
             <a class="nav-link js-scroll-trigger" id="forum" href="">Forum</a>
@@ -76,7 +78,7 @@
     </div>
   </nav>
 
-  <section class="download bg-primary" id="download">
+  <section class="" id="download">
     <div class="container">
       <div class="row">
         <div class="col-md-8">
@@ -98,23 +100,23 @@
            friendIds = doc.data().friends.split(",");
         });
 
-
-        var posts = "";
         db.collection("posts").get().then(function(querySnapshot) {
-          console.log(friendIds);
-
           querySnapshot.forEach(function(doc) {
-            console.log(doc.data().text);
             var poster = doc.data().p_id;
             if (friendIds.indexOf(poster) != -1) {
-              posts += doc.data().name + ": " + doc.data().text + "<br>";
+              var time = doc.data().time.toDate();
+              time = time.getFullYear() + "/" + time.getDate() + "/" + (time.getMonth() + 1);
+
+              document.getElementById("posts").innerHTML +=
+              "<div class=\"card\"> <div class=\"card-header\">From CNN: Education Policy</div>" +
+              "<div class=\"card-body\">" +
+              "<p class=\"card-text\">" + doc.data().text + "</p>" +
+              "<p id=\"name\">" + doc.data().name + "</p>" +
+              "<p class=\"card-text\" id=\"date\">" + time + "</p></div> " +
+              "<div class=\"card-footer\"><p class=\"card-footer-text\">Reply to " + doc.data().name + "</p></div></div>";
             }
           });
         });
-
-        setTimeout(function() {
-          document.getElementById("posts").innerHTML = posts;
-        }, 5000);
 
         try {
            	let app = firebase.app()
