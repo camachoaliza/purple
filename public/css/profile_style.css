@@ -163,15 +163,15 @@ header.masthead .header-content h1 {
   font-size: 30px;
 }
 
-header.masthead .device-container {
+/* header.masthead .device-container {
   max-width: 325px;
   margin-right: auto;
   margin-left: auto;
-}
+} */
 
-header.masthead .device-container .screen img {
+/* header.masthead .device-container .screen img {
   border-radius: 3px;
-}
+} */
 
 @media (min-width: 992px) {
   header.masthead {
@@ -187,9 +187,9 @@ header.masthead .device-container .screen img {
   header.masthead .header-content h1 {
     font-size: 50px;
   }
-  header.masthead .device-container {
+  /* header.masthead .device-container {
     max-width: 325px;
-  }
+  } */
 }
 
 section.download {
@@ -367,6 +367,7 @@ footer {
   text-align: center;
   color: rgba(255, 255, 255, 0.3);
   background-color: #222222;
+  margin-top: 200px;
 }
 
 footer p {
@@ -433,6 +434,7 @@ footer ul li a:hover, footer ul li a:focus, footer ul li a:active, footer ul li 
 .profile-sidebar {
   padding: 20px 0 10px 0;
   background: #fff;
+  margin-top: -120px;
 }
 
 .profile-userpic img {
@@ -527,6 +529,7 @@ footer ul li a:hover, footer ul li a:focus, footer ul li a:active, footer ul li 
   padding: 20px;
   background: #fff;
   min-height: 460px;
+  margin-top: -120px;
 }
 
 .recent_activity {
@@ -701,16 +704,16 @@ h6 {
     padding-top: 20px!important;
 }
 
-.friends_row {
+/* .friends_row {
   background: white;
   /* width: 86%; */
   width: 246px;
   padding: 10px 0 5px 0;
-  margin-left: 88px;
-  margin-top: -80px;
-  margin-top: -400px;
+  margin-left: 15px;
+  /* margin-top: 20px; */
+  margin-top: -205px;
   margin-bottom: 15px;
-}
+} */
 .people-nearby .google-maps{
   background: #f8f8f8;
   border-radius: 4px;
@@ -740,4 +743,32 @@ h6 {
 .friends_list body{
     margin-top:10px;
     background:#FAFAFA;
+}
+
+.container-nav {
+  /* margin-left: 600px; */
+  margin-top: -10px;
+}
+
+#navbarResponsive {
+  margin-left: 800px;
+}
+
+.nav {
+  width: 300px;
+}
+
+
+#friends {
+  margin-left: -300px;
+  background-color: white;
+  margin-top: -275px;
+  width: 46%;
+  padding: 5px;
+}
+
+#content {
+  width: 50%;
+  /* margin-top: -100px;
+  margin-right: 500px; */
 }

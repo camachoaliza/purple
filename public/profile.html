@@ -95,9 +95,9 @@
     </div>
   </header> -->
   <section>
-    <div class="container">
+    <div class="container-profile">
     <div class="row profile">
-		<div class="col-md-3">
+		<div class="col-md-3" style="height: 50%;">
 			<div class="profile-sidebar">
 				<!-- SIDEBAR USERPIC -->
 				<div class="profile-userpic">
@@ -107,7 +107,7 @@
 				<!-- SIDEBAR USER TITLE -->
 				<div class="profile-usertitle">
 					<div class="profile-usertitle-name">
-						<h1><span id="name"></span>!</h1>
+						<h1><span id="name"></span></h1>
 					</div>
 					<div class="profile-usertitle-job">
 						Developer
@@ -116,8 +116,8 @@
 				<!-- END SIDEBAR USER TITLE -->
 				<!-- SIDEBAR BUTTONS -->
 				<div class="profile-userbuttons">
-					<button type="button" class="btn btn-secondary btn-sm">Edit My Profile</button>
-					<!-- <button type="button" class="btn btn-danger btn-sm">Message</button> -->
+					<button type="button" id="editMyProfile" class="btn btn-secondary btn-sm">Edit My Profile</button>
+					<button type="button" id="addFriend" class="btn btn-primary btn-sm" onclick="addFriend()">Add Friend</button>
 				</div>
 				<!-- END SIDEBAR BUTTONS -->
 				<!-- SIDEBAR MENU -->
@@ -173,37 +173,37 @@
                                       <div class="row p-t-20 p-b-30">
                                           <div class="col-auto text-right update-meta">
                                               <p class="text-muted m-b-0 d-inline">2 hrs ago</p>
-                                              <i class="fa fa-twitter bg-twitter update-icon"></i>
+                                              <i class="fa far fa-newspaper bg-twitter update-icon"></i>
                                           </div>
                                           <div class="col">
-                                              <h6>+ 1652 Followers</h6>
-                                              <p class="text-muted m-b-0">You’re getting more and more followers, keep it up!</p>
+                                              <h6>CNN +5 points</h6>
+                                              <p class="text-muted m-b-0">Nikki Haley says top Trump aides tried to recruit her to undermine president</p>
                                           </div>
                                       </div>
                                       <div class="row p-b-30">
                                           <div class="col-auto text-right update-meta">
                                               <p class="text-muted m-b-0 d-inline">4 hrs ago</p>
-                                              <i class="fa fa-briefcase bg-c-red update-icon"></i>
+                                              <i class="fa fas fa-video bg-c-red update-icon"></i>
                                           </div>
                                           <div class="col">
-                                              <h6>+ 5 New Products were added!</h6>
-                                              <p class="text-muted m-b-0">Congratulations!</p>
+                                              <h6>Fox News +5 points</h6>
+                                              <p class="text-muted m-b-0">Fox News Sunday with Chris Wallace</p>
                                           </div>
                                       </div>
                                       <div class="row p-b-30">
                                           <div class="col-auto text-right update-meta">
                                               <p class="text-muted m-b-0 d-inline">1 day ago</p>
-                                              <i class="fa fa-check bg-c-green update-icon"></i>
+                                              <i class="fas fa-lock-open bg-c-green update-icon"></i>
                                           </div>
                                           <div class="col">
-                                              <h6>Database backup completed!</h6>
-                                              <p class="text-muted m-b-0">Download the <span class="text-c-blue"> <a href="#!" class="text-c-blue">latest backup</a> </span>.</p>
+                                              <h6>New level unlocked!</h6>
+                                              <p class="text-muted m-b-0">You have now achieved level lavender.</p>
                                           </div>
                                       </div>
                                       <div class="row p-b-0">
                                           <div class="col-auto text-right update-meta">
                                               <p class="text-muted m-b-0 d-inline">2 day ago</p>
-                                              <i class="fa fa-facebook bg-facebook update-icon"></i>
+                                              <i class="fa fas fa-user-plus bg-facebook update-icon"></i>
                                           </div>
                                           <div class="col">
                                               <h6>+2 Friend Requests</h6>
@@ -216,7 +216,7 @@
                                                                   <a href="#!" class="align-middle">
                                                                       <img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="user image" class="img-radius img-40 align-top m-r-15">
                                                                       <div class="d-inline-block">
-                                                                          <h6>Jeny William</h6>
+                                                                          <a href= "profile.html?id=PNw1eSh4LK2NNXWGwzvV"><h6>Jeny William</h6></a>
                                                                           <p class="text-muted m-b-0">Graphic Designer</p>
                                                                       </div>
                                                                   </a>
@@ -227,7 +227,7 @@
                                                                   <a href="#!" class="align-middle">
                                                                       <img src="https://bootdey.com/img/Content/avatar/avatar6.png" alt="user image" class="img-radius img-40 align-top m-r-15">
                                                                       <div class="d-inline-block">
-                                                                          <h6>John Deo</h6>
+                                                                          <a href= 'profile.html?id=bEhc50tvYfZtYcf5Tyg2'><h6>John Deo</h6></a>
                                                                           <p class="text-muted m-b-0">Web Designer</p>
                                                                       </div>
                                                                   </a>
@@ -253,8 +253,15 @@
     </div>
   </section>
 
+
   <!-- FRIENDS LIST -->
-  <div class="friends_list">
+  <div id="content" class="header-content mx-auto">
+    <div id=friends>
+      Your friends
+    </div>
+  </div>
+
+  <!-- <div class="friends_list">
     <div class="friends_row">
         <div class="col-md-8">
           <h4>Your friends</h4>
@@ -285,9 +292,46 @@
             <h5 class="b-b-primary text-primary view_all_friends">View all friends</h5>
         </div>
        </div>
-  </div>
+  </div> -->
+
+  <footer>
+    <div class="container-footer">
+      <p>&copy; Your Website 2019. All Rights Reserved.</p>
+      <ul class="list-inline">
+        <li class="list-inline-item">
+          <a href="#">Privacy</a>
+        </li>
+        <li class="list-inline-item">
+          <a href="#">Terms</a>
+        </li>
+        <li class="list-inline-item">
+          <a href="#">FAQ</a>
+        </li>
+      </ul>
+    </div>
+  </footer>
 
   <script>
+  var currUserId;
+
+  function addFriend() {
+    // document.getElementById("addFriend").innerHTML = "<button type='button' id='success' class='btn btn-success btn-sm'>Success</button>";
+    document.getElementById("addFriend").classList = 'btn btn-success btn-sm';
+    document.getElementById("addFriend").innerText = "Added";
+
+    // var vals = window.location.search.split("=");
+    var db = firebase.firestore();
+
+    // db.collection("people").doc(vals[1]).onSnapshot(function (doc) {
+    // document.getElementById("name").innerHTML = doc.data().name;
+    // var friendIds = doc.data().friends.split(",");
+    // var friendsHTML = "Friends: ";
+    // console.log(doc.id);
+
+    // document.getElementById("addFriend").innerHTML.className = "btn btn-success btn-sm";
+
+  }
+
     document.addEventListener('DOMContentLoaded', function() {
         firebase.auth().onAuthStateChanged(authStateObserver);
         var vals = window.location.search.split("=");
@@ -300,7 +344,8 @@
           friendIds.forEach(function(friend) {
             if (friend !== "") {
               db.collection("people").doc(friend).onSnapshot(function(doc) {
-                friendsHTML += "<a href=\"profile.html?id=" + friend + "\">" + doc.data().name + "</a>";
+                friendsHTML += "<a href=\"profile.html?id=" + doc.id + "\"/>" + doc.data().name + "</a>" + ",";
+
               });
             }
           });
@@ -318,24 +363,9 @@
          }
     });
 
-  </script>
+    //firebase.auth.currentUser
 
-  <footer>
-    <div class="container">
-      <p>&copy; Your Website 2019. All Rights Reserved.</p>
-      <ul class="list-inline">
-        <li class="list-inline-item">
-          <a href="#">Privacy</a>
-        </li>
-        <li class="list-inline-item">
-          <a href="#">Terms</a>
-        </li>
-        <li class="list-inline-item">
-          <a href="#">FAQ</a>
-        </li>
-      </ul>
-    </div>
-  </footer>
+  </script>
 
   <!-- Bootstrap core JavaScript -->
   <script src="vendor/jquery/jquery.min.js"></script>
