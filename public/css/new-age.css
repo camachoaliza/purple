@@ -1,4 +1,9 @@
-background-color: #eaeaea/*!
+#temp: {
+  height: 100px;
+  position:relative;
+}
+
+/*!
  * Start Bootstrap - New Age v5.0.7 (https://startbootstrap.com/template-overviews/new-age)
  * Copyright 2013-2019 Start Bootstrap
  * Licensed under MIT (https://github.com/BlackrockDigital/startbootstrap-new-age/blob/master/LICENSE)
@@ -6,6 +11,7 @@ background-color: #eaeaea/*!
 
 html,
 body {
+  background-color: #eaeaea;
   width: 100%;
   height: 100%;
 }
@@ -156,7 +162,6 @@ header.masthead {
   padding-top: 150px;
   padding-bottom: 100px;
   color: white;
-  background: url("../img/bg-pattern.png"), #7b4397;
   background: url("../img/bg-pattern.png"), linear-gradient(to left, #C49EDB, #9942CD);
 }
 
@@ -425,6 +430,7 @@ footer ul li a:hover, footer ul li a:focus, footer ul li a:active, footer ul li 
   font-family: 'Lato', 'Helvetica', 'Arial', 'sans-serif';
   letter-spacing: 2px;
   text-transform: uppercase;
+  margin-top:5px;
 }
 
 .btn-xl {

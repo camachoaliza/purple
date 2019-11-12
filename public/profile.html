@@ -19,15 +19,14 @@
   <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css?family=Catamaran:100,200,300,400,500,600,700,800,900" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css?family=Muli" rel="stylesheet">
-  <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="https://allyoucan.cloud/cdn/icofont/1.0.1/icofont.css" integrity="sha384-jbCTJB16Q17718YM9U22iJkhuGbS0Gd2LjaWb4YJEZToOPm">
 
   <!-- Plugin CSS -->
   <link rel="stylesheet" href="device-mockups/device-mockups.min.css">
 
   <!-- Custom styles for this template -->
   <link href="css/profile_style.css" rel="stylesheet">
+  <link href="css/new-age.css" rel="stylesheet">
+
   <!-- update the version number as needed -->
   <script defer src="/__/firebase/7.1.0/firebase-app.js"></script>
   <!-- include only the Firebase features as you need -->
@@ -38,8 +37,6 @@
   <script defer src="/__/firebase/7.1.0/firebase-firestore.js"></script>
   <!-- initialize the SDK after all desired features are loaded -->
   <script defer src="/__/firebase/init.js"></script>
-  <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
-  <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
 </head>
 
 <body id="page-top">
@@ -55,7 +52,7 @@
       <div class="collapse navbar-collapse" id="navbarResponsive">
         <ul class="navbar-nav ml-auto">
           <li class="nav-item">
-            <a class="nav-link js-scroll-trigger" href="">Read</a>
+            <a class="nav-link js-scroll-trigger" id="read" href="read.html">Read</a>
           </li>
           <li class="nav-item">
             <a class="nav-link js-scroll-trigger" id="forum" href="">Forum</a>
@@ -63,16 +60,16 @@
           <li class="nav-item">
             <a class="nav-link js-scroll-trigger" id="profile" href="">My Profile</a>
           </li>
-          <li class="nav-item" font color = "blue">
-            <a class="nav-link js-scroll-trigger" href="">Leaderboard</a>
+          <li class="nav-item">
+            <a class="nav-link js-scroll-trigger" id ="leaderboard" href="">Leaderboard</a>
           </li>
           <li class="nav-item">
-            <button class="" id="sign-out" onclick="signOut();"hidden>
+            <button class="" id="sign-out" onclick="signOut();" hidden>
                 Sign-out
             </button>
           </li>
           <li class="nav-item">
-            <button class="btn btn-outline btn-xs js-scroll-trigger" id="sign-in" onclick="signIn();"hidden>
+            <button class="" id="sign-in" onclick="signIn();" hidden>
               Sign-in
             </button>
           </li>
@@ -81,23 +78,10 @@
     </div>
   </nav>
 
-  <!-- <header class="masthead">
-    <div class="container h-100">
-      <div class="row h-100">
-        <div class="col-lg-7 my-auto">
-          <div id="content" class="header-content mx-auto">
-            <h1>Hey, <span id="name"></span>!</h1>
-            <div id=friends>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </header> -->
   <section>
     <div class="container-profile">
     <div class="row profile">
-		<div class="col-md-3" style="height: 50%;">
+		<div class="col-md-4">
 			<div class="profile-sidebar">
 				<!-- SIDEBAR USERPIC -->
 				<div class="profile-userpic">
@@ -117,7 +101,7 @@
 				<!-- SIDEBAR BUTTONS -->
 				<div class="profile-userbuttons">
 					<button type="button" id="editMyProfile" class="btn btn-secondary btn-sm">Edit My Profile</button>
-					<button type="button" id="addFriend" class="btn btn-primary btn-sm" onclick="addFriend()">Add Friend</button>
+					<button type="button" id="addFriend" class="btn btn-primary btn-sm" onclick="addFriend()">Add Friend Coming Soon!</button>
 				</div>
 				<!-- END SIDEBAR BUTTONS -->
 				<!-- SIDEBAR MENU -->
@@ -145,11 +129,14 @@
 						</li>
 					</ul>
 				</div>
+        <div id=friends>
+          Friends:<br>
+        </div>
 				<!-- END MENU -->
   			</div>
   		</div>
 
-  		<div class="col-md-9">
+  		<div class="col-md-8">
               <div class="profile-content">
                 <!-- <h1>Hi, <span id="name"></span></h1> -->
                 <div class="recent_activity">
@@ -253,47 +240,6 @@
     </div>
   </section>
 
-
-  <!-- FRIENDS LIST -->
-  <div id="content" class="header-content mx-auto">
-    <div id=friends>
-      Your friends
-    </div>
-  </div>
-
-  <!-- <div class="friends_list">
-    <div class="friends_row">
-        <div class="col-md-8">
-          <h4>Your friends</h4>
-            <div class="people-nearby">
-              <div class="nearby-user">
-                <div class="friends_row_item">
-                  <div class="col-md-2 col-sm-2">
-                    <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="user" class="profile-photo-lg">
-                  </div>
-                  <div class="col-md-7 col-sm-7">
-                    <h5><a href="#" class="profile-link">Sophia Page</a></h5>
-                    <p>Software Engineer</p>
-                  </div>
-                </div>
-              </div>
-              <div class="nearby-user">
-               <div class="friends_row_item">
-                 <div class="col-md-2 col-sm-2">
-                   <img src="https://bootdey.com/img/Content/avatar/avatar5.png" alt="user" class="profile-photo-lg">
-                 </div>
-                 <div class="col-md-7 col-sm-7">
-                   <h5><a href="#" class="profile-link">Nora Wilson</a></h5>
-                   <p>Writer at Newspaper</p>
-                 </div>
-               </div>
-              </div>
-            </div>
-            <h5 class="b-b-primary text-primary view_all_friends">View all friends</h5>
-        </div>
-       </div>
-  </div> -->
-
   <footer>
     <div class="container-footer">
       <p>&copy; Your Website 2019. All Rights Reserved.</p>
@@ -336,23 +282,17 @@
         firebase.auth().onAuthStateChanged(authStateObserver);
         var vals = window.location.search.split("=");
         var db = firebase.firestore();
+
         db.collection("people").doc(vals[1]).onSnapshot(function (doc) {
-          document.getElementById("name").innerHTML = doc.data().name;
           var friendIds = doc.data().friends.split(",");
-          var friendsHTML = "Friends: ";
 
           friendIds.forEach(function(friend) {
             if (friend !== "") {
               db.collection("people").doc(friend).onSnapshot(function(doc) {
-                friendsHTML += "<a href=\"profile.html?id=" + doc.id + "\"/>" + doc.data().name + "</a>" + ",";
-
+                document.getElementById("friends").innerHTML += "<a href=\"profile.html?id=" + doc.id + "\"/>" + doc.data().name + "</a><br>";
               });
             }
           });
-
-          setTimeout(function() {
-            document.getElementById("friends").innerHTML = friendsHTML;
-          }, 4000);
         });
 
         try {

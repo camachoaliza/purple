@@ -15,6 +15,7 @@ function authStateObserver(user) {
       id = firebase.auth().currentUser.uid;
       document.getElementById("profile").href = "profile.html?id=" + id;
       document.getElementById("forum").href = "feed.html?id=" + id;
+      document.getElementById("leaderboard").href = "leaderboard.html?id=" + id;
       document.getElementById("sign-in").hidden = true;
       document.getElementById("sign-out").hidden = false;
   } else { // User is signed out!

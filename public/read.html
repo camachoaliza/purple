@@ -24,7 +24,7 @@
   <link rel="stylesheet" href="device-mockups/device-mockups.min.css">
 
   <!-- Custom styles for this template -->
-  <link href="css/new-age.min.css" rel="stylesheet">
+  <link href="css/new-age.css" rel="stylesheet">
   <!-- update the version number as needed -->
   <script defer src="/__/firebase/7.1.0/firebase-app.js"></script>
   <!-- include only the Firebase features as you need -->
@@ -59,7 +59,7 @@
             <a class="nav-link js-scroll-trigger" id="profile" href="">My Profile</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link js-scroll-trigger" href="">Leaderboard</a>
+            <a class="nav-link js-scroll-trigger" id="leaderboard" href="">Leaderboard</a>
           </li>
           <li class="nav-item">
             <button class="" id="sign-out" onclick="signOut();"hidden>
@@ -76,7 +76,7 @@
     </div>
   </nav>
 
-  <header class="masthead">
+  <section class="">
     <div class="container">
       <div class="row">
         <h2 class="section-heading">Read About the 2020 Elections</h2>
@@ -102,7 +102,7 @@
         </div>
       </div>
     </div>
-  </header>
+  </section>
 
   <script type="text/javascript">
     function readTextFile(file) {
@@ -119,10 +119,15 @@
       rawFile.send(null);
       return allText.split("\n");
     }
-    var links = readTextFile("cnnLinks.txt");
-    links.forEach(function(link) {
-      document.getElementById("cnn").innerHTML += "<a href=\"" + link + "\">" + link + "</a><br>";
+
+    document.getElementById("cnn").innerHTML += "<ul>"
+    var articles = readTextFile("cnnLinks.txt");
+    articles.forEach(function(article) {
+      var title = article.split(",, ")[0];
+      var link = article.split(",, ")[1];
+      document.getElementById("cnn").innerHTML += "<li><a href=\"" + link + "\">" + title + "</a></li>";
     });
+    document.getElementById("cnn").innerHTML += "</ul>"
   </script>
 
   <footer>

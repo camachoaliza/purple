@@ -50,7 +50,7 @@
       <div class="collapse navbar-collapse" id="navbarResponsive">
         <ul class="navbar-nav ml-auto">
           <li class="nav-item">
-            <a class="nav-link js-scroll-trigger" id="read" href="read.html">Read</a>
+            <a class="nav-link js-scroll-trigger" href="read.html">Read</a>
           </li>
           <li class="nav-item">
             <a class="nav-link js-scroll-trigger" id="forum" href="">Forum</a>
@@ -62,12 +62,12 @@
             <a class="nav-link js-scroll-trigger" id="leaderboard" href="">Leaderboard</a>
           </li>
           <li class="nav-item">
-            <button class="" id="sign-out" onclick="signOut();" hidden>
+            <button class="" id="sign-out" onclick="signOut();"hidden>
                 Sign-out
             </button>
           </li>
           <li class="nav-item">
-            <button class="" id="sign-in" onclick="signIn();" hidden>
+            <button class="btn btn-outline btn-xs js-scroll-trigger" id="sign-in" onclick="signIn();"hidden>
               Sign-in
             </button>
           </li>
@@ -76,33 +76,40 @@
     </div>
   </nav>
 
-  <header class="masthead">
-    <div class="container h-100">
-      <div class="row h-100">
-        <div class="col-lg-7 my-auto">
-          <div class="header-content mx-auto">
-            <h1 class="mb-5" id="front-message">Welcome to Purple! Compete with your friends to read, digest, and reflect on a diversity of sources on the 2020 Presidential Elections.</h1>
-            <!-- <a href="#download" class="btn btn-outline btn-xl js-scroll-trigger">Sign up/Log in</a> -->
-          </div>
-        </div>
-        <div class="col-lg-5 my-auto">
-          <div class="device-container">
-            <div class="device-mockup iphone6_plus portrait white">
-              <div class="device">
-                <div class="screen">
-                  <!-- Demo image for screen mockup, you can put an image here, some HTML, an animation, video, or anything else! -->
-                  <img src="img/demo-screen-1.jpg" class="img-fluid" alt="">
-                </div>
-                <!-- <div class="button"> -->
-                  <!-- You can hook the "home button" to some JavaScript events or just remove it -->
-                <!-- </div> -->
-              </div>
-            </div>
-          </div>
-        </div>
+  <section class="">
+    <div class="container">
+      <div class="row">
+        <h2 class="section-heading">Leaderboard coming soon!</h2>
+      </div>
+      <div class="row">
+        <div id="leaders"></div>
       </div>
     </div>
-  </header>
+  </section>
+
+  <script type="text/javascript">
+    document.addEventListener('DOMContentLoaded', function() {
+        firebase.auth().onAuthStateChanged(authStateObserver);
+        var vals = window.location.search.split("=");
+        var db = firebase.firestore();
+        var friendIds;
+
+        db.collection("people").doc(vals[1]).onSnapshot(function (doc) {
+           doc.data().friends.split(",").forEach(function(friend) {
+             db.collection("people").doc(friend).onSnapshot(function (doc) {
+                document.getElementById("leaders").innerHTML += doc.data().name;
+             });
+           });
+        });
+
+        try {
+            let app = firebase.app()
+            let features = ['auth', 'database', 'messaging', 'storage'] .filter(feature => typeof app[feature] === 'function');
+         } catch (e) {
+             console.error(e);
+         }
+    });
+  </script>
 
   <footer>
     <div class="container">
@@ -132,4 +139,5 @@
   <script src="js/new-age.min.js"></script>
   <script src="purple.js"></script>
 </body>
+
 </html>

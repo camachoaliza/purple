@@ -24,8 +24,14 @@
   <link rel="stylesheet" href="device-mockups/device-mockups.min.css">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 
+  <style>
+    #createPost {
+      margin-bottom: 20px;
+    }
+  </style>
+
   <!-- Custom styles for this template -->
-  <link href="css/new-age.min.css" rel="stylesheet">
+  <link href="css/new-age.css" rel="stylesheet">
   <link href="css/post.css" rel="stylesheet">
   <!-- update the version number as needed -->
   <script defer src="/__/firebase/7.1.0/firebase-app.js"></script>
@@ -61,7 +67,7 @@
             <a class="nav-link js-scroll-trigger" id="profile" href="">My Profile</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link js-scroll-trigger" href="">Leaderboard</a>
+            <a class="nav-link js-scroll-trigger" id="leaderboard" href="">Leaderboard</a>
           </li>
           <li class="nav-item">
             <button class="" id="sign-out" onclick="signOut();"hidden>
@@ -83,6 +89,11 @@
       <div class="row">
         <div class="col-md-8">
           <h1 class="section-heading">News Feed</h1>
+          <div id="createPost">
+            <h4>Share your thoughts!</h4>
+            <input type="text" id="post" name="name" maxlength="400">
+            <button id="submitPost">Submit Post</button>
+          </div>
           <div id="posts"></div>
         </div>
       </div>
@@ -90,15 +101,30 @@
   </section>
 
   <script>
+    var date = new Date();
     document.addEventListener('DOMContentLoaded', function() {
         firebase.auth().onAuthStateChanged(authStateObserver);
         var vals = window.location.search.split("=");
         var db = firebase.firestore();
-        var friendIds;
 
+        var name;
+        var friendIds;
         db.collection("people").doc(vals[1]).onSnapshot(function (doc) {
+            name = doc.data().name;
            friendIds = doc.data().friends.split(",");
+           friendIds.push(vals[1]);
         });
+        console.log(friendIds);
+        function submitPost() {
+          db.collection("posts").doc().set({
+            p_id: vals[1],
+            text: "hello", //get message from input
+            time: date,
+            name: name,
+          });
+          alert("Post sucessfully submitted");
+        }
+        document.getElementById("submitPost").onclick = submitPost;
 
         db.collection("posts").get().then(function(querySnapshot) {
           querySnapshot.forEach(function(doc) {
