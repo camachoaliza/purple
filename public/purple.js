@@ -79,16 +79,20 @@ function saveChanges() {
   numClickEdits = 0;
 }
 
+// function changeProfile(name) {
+//
+// }
+
 document.addEventListener('DOMContentLoaded', function() {
     firebase.auth().onAuthStateChanged(authStateObserver);
     var vals = window.location.search.split("=");
     // id = firebase.auth().currentUser.displayName;
     // console.log("name in profile: " + id);
     var db = firebase.firestore();
-    document.getElementById("name").innerText = name;
 
     db.collection("people").doc(vals[1]).onSnapshot(function (doc) {
       var friendIds = doc.data().friends.split(",");
+      document.getElementById("name").innerText = doc.data().name;
 
       friendIds.forEach(function(friend) {
         if (friend !== "") {
