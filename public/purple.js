@@ -1,4 +1,6 @@
 var id;
+var name;
+var bio;
 var numClickEdits = 0;
 
 function signIn() {
@@ -13,10 +15,11 @@ function signOut() {
 
 function authStateObserver(user) {
   if (user) { // User is signed in!
-    console.log("USER SIGNED IN there");
     id = firebase.auth().currentUser.uid;
     name = firebase.auth().currentUser.displayName;
-    console.log(name);
+    bio = firebase.auth().currentUser.bio;
+    friends = firebase.auth().currentUser.friends;
+    console.log(friends);
     document.getElementById("profile").href = "profile.html?id=" + id;
     document.getElementById("forum").href = "feed.html?id=" + id;
     document.getElementById("leaderboard").href = "leaderboard.html?id=" + id;
@@ -31,9 +34,18 @@ function authStateObserver(user) {
   }
 }
 
+function removeFriend() {
+  document.getElementById("removeFriend").hidden = true;
+  document.getElementById("addFriend").hidden = false;
+  console.log("removed");
+}
+
 function addFriend() {
-  document.getElementById("addFriend").classList = 'btn btn-success btn-sm';
-  document.getElementById("addFriend").innerText = "Added";
+  // document.getElementById("addFriend").classList = 'btn btn-success btn-sm';
+  // document.getElementById("addFriend").innerText = "Added";
+  document.getElementById("addFriend").hidden = true;
+  document.getElementById("removeFriend").hidden = false;
+  console.log("added");
 }
 
 // function getPurple() {
@@ -85,6 +97,7 @@ function saveChanges() {
 // }
 
 document.addEventListener('DOMContentLoaded', function() {
+    console.log("name is: " + name);
     firebase.auth().onAuthStateChanged(authStateObserver);
     var vals = window.location.search.split("=");
     // id = firebase.auth().currentUser.displayName;
@@ -94,6 +107,7 @@ document.addEventListener('DOMContentLoaded', function() {
     db.collection("people").doc(vals[1]).onSnapshot(function (doc) {
       var friendIds = doc.data().friends.split(",");
       document.getElementById("name").innerText = doc.data().name;
+      document.getElementById("bio").innerText = doc.data().bio;
 
       friendIds.forEach(function(friend) {
         if (friend !== "") {
@@ -102,7 +116,19 @@ document.addEventListener('DOMContentLoaded', function() {
           });
         }
       });
+
+      var currHTML = window.location.href.split("=")[1];
+      if (currHTML != id) {
+        document.getElementById("removeFriend").hidden = false;
+        document.getElementById("editMyProfile").setAttribute('hidden', false);
+        document.getElementById("name").innerText = doc.data().name;
+        document.getElementById("bio").innerText = doc.data().bio;
+      } else {
+        document.getElementById("removeFriend").hidden = true;
+      }
     });
+
+
 
     try {
         let app = firebase.app()
