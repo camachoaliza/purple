@@ -12,6 +12,9 @@
   text-align: center;
 }
 
+#prof_pic {
+  margin-top: 50px;
+}
 #friend_leaderboard {
   margin-top: -250px;
 }

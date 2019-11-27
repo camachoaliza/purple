@@ -314,6 +314,7 @@
        var colorIndex = colors.indexOf(color);
        var colorVal = colorVals[colorIndex];
        var values = [numLeft, numCenter, numRight];
+
        //purple indicator
        var data = [{
          values: values,
@@ -332,6 +333,13 @@
          type: 'pie'
        }];
 
+       var pointsTxt;
+       if (points <= 0) {
+         pointsTxt = "No articles read yet!"
+       } else {
+         pointsTxt = points + " Points";
+       }
+
        var layout = {
          title: name + "\'s color is " + color + "!",
          height: 400,
@@ -345,7 +353,7 @@
                size: 14
              },
              showarrow: false,
-             text: points + ' Points',
+             text: pointsTxt,
              x: 0.5,
              y: 0.5
            }

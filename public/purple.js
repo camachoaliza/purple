@@ -144,6 +144,7 @@ function saveChanges() {
   db.collection("people").doc(id).update({
     bio: document.getElementById("bio").innerText,
     name: document.getElementById("name").innerText,
+    pic: document.getElementById("prof_pic").src
   });
 
   numClickEdits = 0;
@@ -161,6 +162,11 @@ document.addEventListener('DOMContentLoaded', function() {
       var friendIds = doc.data().friends;
       document.getElementById("name").innerText = doc.data().name;
       document.getElementById("bio").innerText = doc.data().bio;
+      if (doc.data().pic != null || doc.data().pic != "") {
+        document.getElementById("prof_pic").src = doc.data().pic;
+      } else {
+        document.getElementById("prof_pic").src = "img/profile_icon.jpeg";
+      }
       friendIds.forEach(function(friend) {
         if (friend !== null) {
           db.collection("people").doc(friend).onSnapshot(function(doc) {
@@ -181,6 +187,7 @@ document.addEventListener('DOMContentLoaded', function() {
         document.getElementById("editMyProfile").setAttribute('hidden', true);
         document.getElementById("name").innerText = doc.data().name;
         document.getElementById("bio").innerText = doc.data().bio;
+
         console.log("is friend");
       }else if(currHTML != id && !currUserFriendIds.includes(currHTML)){//not the user's profile and curr page is not friend
         document.getElementById("removeFriend").hidden = true;
@@ -192,7 +199,7 @@ document.addEventListener('DOMContentLoaded', function() {
       }else{//the user's profile
         document.getElementById("removeFriend").hidden = true;
         document.getElementById("addFriend").hidden = true;
-        document.getElementById("editMyProfile").setAttribute('hidden', false);
+        document.getElementById("editMyProfile").hidden = false;
         console.log("is curr user");
       }
     });
