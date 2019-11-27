@@ -81,7 +81,7 @@ function removeFriend() {
   // db.collection("people").doc(id).update({
   //   friends: ""
   // });
-  
+
   document.getElementById("removeFriend").hidden = true;
   document.getElementById("addFriend").hidden = false;
   // console.log("removed");
@@ -168,7 +168,7 @@ document.addEventListener('DOMContentLoaded', function() {
           });
         }
     });
-    
+
     db.collection("people").doc(id).onSnapshot(function (docu) {
       var currUserFriendIds = docu.data().friends;
 
@@ -195,7 +195,7 @@ document.addEventListener('DOMContentLoaded', function() {
         document.getElementById("editMyProfile").setAttribute('hidden', false);
         console.log("remove hidden");
       }
-    }); 
+    });
   });
 
 
@@ -252,48 +252,6 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 });
 
-//purple indicator
-var data = [{
-  values: [16, 15, 12],
-  labels: ['Left', 'Center', 'Right' ],
-  domain: {column: 0},
-  marker: {
-    line: {
-      color: 'black',
-      width: 2,
-    },
-    colors: [
-      'rgb(230, 230, 250)',
-      'rgb(230, 230, 250)',
-      'rgb(230, 230, 250)']
-    },
-  name: ['Left', 'Center', 'Right'],
-  hoverinfo: 'label+percent+name',
-  hole: .5,
-  type: 'pie'
-}];
-
-var layout = {
-  title: 'Purple Level',
-  height: 550,
-  width: 550,
-  paper_bgcolor: 'rgba(0,0,0,0)',
-  grid: {rows: 1, columns: 1},
-  showlegend: false,
-  annotations: [
-    {
-      font: {
-        size: 14
-      },
-      showarrow: false,
-      text: '8 Points',
-      x: 0.5,
-      y: 0.5
-    }
-  ]
-};
-
-Plotly.newPlot('myDiv', data, layout, {showSendToCloud:true});
 function readTextFile(file) {
   var allText;
   var rawFile = new XMLHttpRequest();
@@ -308,6 +266,7 @@ function readTextFile(file) {
   rawFile.send(null);
   return allText.split("\n");
 }
+
 fileTag.addEventListener("change", function() {
   changeImage(this);
 });

@@ -30,7 +30,71 @@
   <!-- Custom styles for this template -->
   <link href="css/profile_style.css" rel="stylesheet">
   <link href="css/new-age.css" rel="stylesheet">
+  <style>
+  .card {
+    margin-bottom:2em;
+  }
 
+  .card-body {
+    padding-bottom:10px;
+  }
+
+  .card-header {
+    font-size: 14px;
+    padding-left:20px;
+    padding-top:8px;
+    padding-bottom:8px;
+  }
+
+  #text {
+    font-size: 18px;
+  }
+
+  .author-info {
+    float:right;
+  }
+
+  .name {
+    margin-bottom: 0px;
+    font-size: 15px;
+    text-align: left;
+    display:block;
+  }
+
+  #profile-image {
+    width:50px;
+    height:50px;
+    margin-left:10px;
+    display:inline-block;
+  }
+
+  .date {
+    font-size: 10px;
+    /* margin-top:35px; */
+    margin-bottom:0px;
+  }
+
+  #country {
+    font-size: 10px;
+    margin-top:0px;
+  }
+
+  .username {
+    color:#1da1f2;
+  }
+
+  #verified {
+    display:inline;
+    text-align: right;
+  }
+
+  .card-footer-text {
+    font-size: 12px;
+    display:inline;
+    margin-right:10px;
+    margin-left:2px;
+  }
+  </style>
   <!-- update the version number as needed -->
   <script defer src="/__/firebase/7.1.0/firebase-app.js"></script>
   <!-- include only the Firebase features as you need -->
@@ -89,7 +153,7 @@
     </div>
   </nav>
 
-  <section>
+  <section style="padding-bottom:0px">
     <div class="container-profile">
     <div class="row profile">
 		<div class="col-md-4">
@@ -118,35 +182,47 @@
 					<button type="button" id="addFriend" class="btn btn-primary btn-sm" hidden="true" onclick="addFriend()">Add Friend</button>
           <button type="button" id="removeFriend" class="btn btn-danger btn-sm" hidden="true" onclick="removeFriend()">Remove Friend</button>
 				</div>
-        <div id=friends>
-          Friends:<br>
+        <div id=friends style="margin-left:50px; margin-top:20px;">
+          <h3>Friends:</h3>
         </div>
 				<!-- END MENU -->
   			</div>
   		</div>
 
       <div id="myDiv"><!-- Plotly chart will be drawn inside this DIV --></div>
-    	</div>
+    </div>
     </div>
   </section>
 
-  <section id="friend_leaderboard" class="">
-  <div class="container">
-    <div class="row justify-content-center">
-      <h2 class="section-heading">Leaderboard</h2>
+  <section style="padding-top:0px;">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-4">
+          <div id="activity">
+            <h2>Your Activity</h2>
+          </div>
+        </div>
+        <div class="col-md-8">
+          <div class="container">
+            <div class="row justify-content-center">
+              <h2>Leaderboard</h2>
+            </div>
+            <div class="row">
+              <div class="col h3" style="text-align:center;"><strong>Username</strong></div>
+              <div class="col h3" style="text-align:center;"><strong>Score</strong></div>
+              <div class="col h3" style="text-align:center;"><strong>Color</strong></div>
+            </div>
+            <div class="row">
+              <div class="col h4" id="user" style="text-align:center;"></div>
+              <div class="col h4" id="score" style="text-align:center;"></div>
+              <div class="col h4" id="color" style="text-align:center;"></div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-    <div class="row">
-      <div class="col h3" style="text-align:center;"><strong>Username</strong></div>
-      <div class="col h3" style="text-align:center;"><strong>Score</strong></div>
-      <div class="col h3" style="text-align:center;"><strong>Color</strong></div>
-    </div>
-    <div class="row">
-      <div class="col h4" id="user" style="text-align:center;"></div>
-      <div class="col h4" id="score" style="text-align:center;"></div>
-      <div class="col h4" id="color" style="text-align:center;"></div>
-    </div>
-  </div>
-</section>
+  </section>
+
 
 
   <footer>
@@ -181,13 +257,16 @@
   <script src="purple.js"></script>
 
   <script>
+  var colors = ["white", "lavender","plum", "violet", "orchid", "purple"];
+  var colorVals = ["white", "#e6e6fa", "#dda0dd", "#da70d6", "#ba55d3", "#9400d3"];
   document.addEventListener('DOMContentLoaded', function() {
+    var vals = window.location.search.split("=");
 
     firebase.auth().onAuthStateChanged(authStateObserver);
     var db = firebase.firestore();
 
     //get current user
-    
+
     db.collection("people").get().then(function(querySnapshot) {
       var people_ls = [];
       var points_ls = [];
@@ -220,6 +299,95 @@
       document.getElementById("score").innerHTML = s;
       document.getElementById("color").innerHTML = c;
     });
+
+    db.collection("people").doc(vals[1]).onSnapshot(function (doc) {
+       numRight = doc.data().numRight;
+       numLeft = doc.data().numLeft;
+       numCenter = doc.data().numCenter;
+       points = doc.data().points + 1;
+       color = doc.data().color;
+       var colorIndex = colors.indexOf(color);
+       var colorVal = colorVals[colorIndex];
+       var values = [numLeft, numCenter, numRight];
+       //purple indicator
+       var data = [{
+         values: values,
+         labels: ['Left', 'Center', 'Right' ],
+         domain: {column: 0},
+         marker: {
+           line: {
+             color: 'black',
+             width: 2,
+           },
+           colors: [colorVal, colorVal, colorVal]
+           },
+         name: ['Left', 'Center', 'Right'],
+         hoverinfo: 'label',
+         hole: .7,
+         type: 'pie'
+       }];
+
+       var layout = {
+         title: "Your color is " + color + "!",
+         height: 400,
+         width: 400,
+         paper_bgcolor: 'rgba(0,0,0,0)',
+         grid: {rows: 1, columns: 1},
+         showlegend: false,
+         annotations: [
+           {
+             font: {
+               size: 14
+             },
+             showarrow: false,
+             text: points + ' Points',
+             x: 0.5,
+             y: 0.5
+           }
+         ]
+       };
+
+       Plotly.newPlot('myDiv', data, layout, {showSendToCloud:true});
+    });
+
+    db.collection("posts").get().then(function(querySnapshot) {
+      var posts = [];
+      var i = 0;
+      querySnapshot.forEach(function(doc) {
+        var time = doc.data().time.toDate();
+        if (i <5) {
+          posts.push({
+            poster: (doc.data().p_id).toString(),
+            time: time,
+            article: doc.data().article,
+            name: doc.data().name,
+            text: doc.data().text,
+          });
+          i++;
+        }else {
+          return;
+        }
+      });
+      posts.sort(function(a,b){return b.time-a.time;});
+
+      posts.forEach(function(post){
+        var time = post.time;
+        var minutes = time.getMinutes();
+        minutes = minutes < 10 ? "0" + minutes : minutes;
+        time = time.getFullYear() + "/" + time.getDate() + "/" + (time.getMonth() + 1) + " - " + time.getHours() + ":" + minutes;
+        if (post.poster == vals[1]) {
+            document.getElementById("activity").innerHTML +=
+            "<div class=\"card\"> <div class=\"card-header\">"+ post.article +"</div>" +
+            "<div class=\"card-body\">" +
+            "<p class=\"card-text\">" + post.text + "</p>" +
+            "<a href=\"profile.html?id="+ post.poster +"\" class=\"name\">" + post.name + "</a>" +
+            "<p class=\"card-text date\">" + time + "</p></div> ";
+            // "<div class=\"card-footer\"><a class=\"card-footer-text\">Reply to " +
+            // post.name + "</a></div></div>";
+        }
+      });
+    });
+
     try {
       let app = firebase.app();
 
