@@ -191,7 +191,7 @@ document.addEventListener('DOMContentLoaded', function() {
         console.log("not friend");
       }else {//the user's profile
         document.getElementById("removeFriend").hidden = true;
-        document.getElementById("addFriend").hidden = false;
+        document.getElementById("addFriend").hidden = true;
         document.getElementById("editMyProfile").setAttribute('hidden', false);
         console.log("remove hidden");
       }
