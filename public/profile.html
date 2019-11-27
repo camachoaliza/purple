@@ -301,11 +301,12 @@
     });
 
     db.collection("people").doc(vals[1]).onSnapshot(function (doc) {
-       numRight = doc.data().numRight;
-       numLeft = doc.data().numLeft;
-       numCenter = doc.data().numCenter;
-       points = doc.data().points + 1;
-       color = doc.data().color;
+      var name = doc.data().name;
+       var numRight = doc.data().numRight;
+       var numLeft = doc.data().numLeft;
+       var numCenter = doc.data().numCenter;
+       var points = doc.data().points;
+       var color = doc.data().color;
        var colorIndex = colors.indexOf(color);
        var colorVal = colorVals[colorIndex];
        var values = [numLeft, numCenter, numRight];
@@ -328,7 +329,7 @@
        }];
 
        var layout = {
-         title: "Your color is " + color + "!",
+         title: name + "\'s color is " + color + "!",
          height: 400,
          width: 400,
          paper_bgcolor: 'rgba(0,0,0,0)',
