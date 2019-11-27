@@ -8,6 +8,26 @@ function signIn() {
   firebase.auth().signInWithPopup(provider);
 }
 
+var fileTag = document.getElementById("filetag"),
+    preview = document.getElementById("preview");
+
+
+function changeImage(input) {
+  var reader;
+
+  if (input.files && input.files[0]) {
+    reader = new FileReader();
+
+    reader.onload = function(e) {
+      // preview.setAttribute('src', e.target.result);
+      document.getElementById("prof_pic").setAttribute('src', e.target.result);
+    }
+
+    reader.readAsDataURL(input.files[0]);
+  }
+  // document.getElementById("prof_pic").hidden = true;
+}
+
 function signOut() {
   firebase.auth().signOut();
   window.location.redirect("https://purple-4ecfa.firebaseapp.com/");
@@ -18,8 +38,6 @@ function authStateObserver(user) {
     id = firebase.auth().currentUser.uid;
     name = firebase.auth().currentUser.displayName;
     bio = firebase.auth().currentUser.bio;
-    friends = firebase.auth().currentUser.friends;
-    console.log(friends);
     document.getElementById("profile").href = "profile.html?id=" + id;
     document.getElementById("forum").href = "feed.html?id=" + id;
     document.getElementById("leaderboard").href = "leaderboard.html?id=" + id;
@@ -35,6 +53,32 @@ function authStateObserver(user) {
 }
 
 function removeFriend() {
+  console.log("friends are: " + friends);
+  var db = firebase.firestore();
+  var peopleRef = db.collection("people");
+  var friendId = window.location.href.split("=")[1];
+
+  // peopleRef.get().then(function(doc) {
+  //   console.log(doc);
+  // })
+  // var db = firebase.firestore();
+  // db.collection("people").doc(id).update({
+  //   bio: document.getElementById("bio").innerText,
+  //   name: document.getElementById("name").innerText,
+  // });
+
+  // db.collection("people").doc(id).onSnapshot(function (doc) {
+  //   friendIds = doc.data().friends.split(",");
+  // });
+  //
+  // db.collection("people").doc(id).update({
+  //       friends: friendsIds
+  //     });
+
+  db.collection("people").doc(id).update({
+    friends: ""
+  });
+
   document.getElementById("removeFriend").hidden = true;
   document.getElementById("addFriend").hidden = false;
   console.log("removed");
@@ -43,6 +87,12 @@ function removeFriend() {
 function addFriend() {
   // document.getElementById("addFriend").classList = 'btn btn-success btn-sm';
   // document.getElementById("addFriend").innerText = "Added";
+  var db = firebase.firestore();
+  var friendId = window.location.href.split("=")[1];
+  db.collection("people").doc(id).update({
+    friends: friendId
+  });
+
   document.getElementById("addFriend").hidden = true;
   document.getElementById("removeFriend").hidden = false;
   console.log("added");
@@ -68,6 +118,8 @@ function editProfile() {
   numClickEdits += 1;
   document.getElementById("bio").setAttribute('contenteditable', 'true');
   document.getElementById("name").setAttribute('contenteditable', 'true');
+  document.getElementById("filetag").hidden = false;
+  document.getElementById("preview").hidden = false;
   document.getElementById("editMyProfile").setAttribute('class', "btn btn-success btn-sm");
   document.getElementById("editMyProfile").innerText = "Save Changes";
 
@@ -80,6 +132,8 @@ function editProfile() {
 function saveChanges() {
   document.getElementById("bio").setAttribute('contenteditable', 'false');
   document.getElementById("name").setAttribute('contenteditable', 'false');
+  document.getElementById("filetag").hidden = true;
+  document.getElementById("filetag").hidden = true;
   document.getElementById("editMyProfile").setAttribute('class', "btn btn-secondary btn-sm");
   document.getElementById("editMyProfile").innerText = "Edit Profile";
 
@@ -205,8 +259,8 @@ var data = [{
 
 var layout = {
   title: 'Purple Level',
-  height: 400,
-  width: 400,
+  height: 550,
+  width: 550,
   paper_bgcolor: 'rgba(0,0,0,0)',
   grid: {rows: 1, columns: 1},
   showlegend: false,
@@ -224,3 +278,7 @@ var layout = {
 };
 
 Plotly.newPlot('myDiv', data, layout, {showSendToCloud:true});
+
+fileTag.addEventListener("change", function() {
+  changeImage(this);
+});

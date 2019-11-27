@@ -96,7 +96,10 @@
 			<div class="profile-sidebar">
 				<!-- SIDEBAR USERPIC -->
 				<div class="profile-userpic">
-					<img src="img/profile_icon.jpeg" class="img-responsive" alt="">
+          <input type="file" hidden="true" id="filetag">
+          <img hidden="true" id="preview">
+					<img src="img/profile_icon.jpeg" class="img-responsive" id="prof_pic" alt="">
+          <!-- <img src="img/profile_icon.jpeg" id="prof_pic" class="img-responsive" alt=""> -->
 				</div>
 				<!-- END SIDEBAR USERPIC -->
 				<!-- SIDEBAR USER TITLE -->
@@ -115,32 +118,6 @@
 					<button type="button" id="addFriend" class="btn btn-primary btn-sm" hidden="true" onclick="addFriend()">Add Friend</button>
           <button type="button" id="removeFriend" class="btn btn-danger btn-sm" hidden="true" onclick="removeFriend()">Remove Friend</button>
 				</div>
-				<!-- END SIDEBAR BUTTONS -->
-				<!-- SIDEBAR MENU -->
-				<!-- <div class="profile-usermenu">
-					<ul class="nav">
-						<li class="active">
-							<a href="#">
-							<i class="glyphicon glyphicon-home"></i>
-							Overview </a>
-						</li>
-						<li>
-							<a href="#">
-							<i class="glyphicon glyphicon-user"></i>
-							Account Settings </a>
-						</li>
-						<li>
-							<a href="#" target="_blank">
-							<i class="glyphicon glyphicon-ok"></i>
-							Tasks </a>
-						</li>
-						<li>
-							<a href="#">
-							<i class="glyphicon glyphicon-flag"></i>
-							Help </a>
-						</li>
-					</ul>
-				</div> -->
         <div id=friends>
           Friends:<br>
         </div>
@@ -152,6 +129,24 @@
     	</div>
     </div>
   </section>
+
+  <section id="friend_leaderboard" class="">
+  <div class="container">
+    <div class="row justify-content-center">
+      <h2 class="section-heading">Leaderboard</h2>
+    </div>
+    <div class="row">
+      <div class="col h3" style="text-align:center;"><strong>Username</strong></div>
+      <div class="col h3" style="text-align:center;"><strong>Score</strong></div>
+      <div class="col h3" style="text-align:center;"><strong>Color</strong></div>
+    </div>
+    <div class="row">
+      <div class="col h4" id="user" style="text-align:center;"></div>
+      <div class="col h4" id="score" style="text-align:center;"></div>
+      <div class="col h4" id="color" style="text-align:center;"></div>
+    </div>
+  </div>
+</section>
 
 
   <footer>
@@ -184,6 +179,54 @@
   <!-- Custom scripts for this template -->
   <script src="js/new-age.min.js"></script>
   <script src="purple.js"></script>
+
+  <script>
+  document.addEventListener('DOMContentLoaded', function() {
+
+    firebase.auth().onAuthStateChanged(authStateObserver);
+    var db = firebase.firestore();
+    db.collection("people").get().then(function(querySnapshot) {
+      var people_ls = [];
+      var points_ls = [];
+      var colors_ls = [];
+      //load all data from database
+      querySnapshot.forEach(function(doc) {
+        people_ls.push(doc.data().name);
+        points_ls.push(doc.data().points);
+        colors_ls.push(doc.data().color);
+      });
+      //new elements
+      var p = "";
+      var s = "";
+      var c = "";
+      //sort the elements from highest to lowest score
+      while(points_ls.length>0){
+        var max_points = Math.max.apply(null, points_ls);
+        var max_index = points_ls.indexOf(max_points);
+        //append info of highest score
+        p += "<p>" + people_ls[max_index] + "</p>";
+        s += "<p>" + points_ls[max_index] + "</p>";
+        c += "<p>" + colors_ls[max_index] + "</p>";
+        //delete highest score
+        people_ls.splice(max_index,1);
+        points_ls.splice(max_index,1);
+        colors_ls.splice(max_index,1);
+      }
+      //add info to associated IDs in HTML
+      document.getElementById("user").innerHTML = p;
+      document.getElementById("score").innerHTML = s;
+      document.getElementById("color").innerHTML = c;
+    });
+    try {
+      let app = firebase.app();
+
+      let features = ['auth', 'database', 'messaging', 'storage'].filter(feature => typeof app[feature] === 'function');
+
+    } catch (e) {
+      console.error(e);
+    }
+  });
+  </script>
 </body>
 
 </html>
