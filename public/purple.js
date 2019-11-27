@@ -57,7 +57,10 @@ function removeFriend() {
   var db = firebase.firestore();
   var peopleRef = db.collection("people");
   var friendId = window.location.href.split("=")[1];
-
+  db.collection("people").doc(id).update({
+    friends: firebase.firestore.FieldValue.arrayRemove(friendId)
+  });
+  console.log(friends)
   // peopleRef.get().then(function(doc) {
   //   console.log(doc);
   // })
@@ -75,13 +78,13 @@ function removeFriend() {
   //       friends: friendsIds
   //     });
 
-  db.collection("people").doc(id).update({
-    friends: ""
-  });
-
+  // db.collection("people").doc(id).update({
+  //   friends: ""
+  // });
+  
   document.getElementById("removeFriend").hidden = true;
   document.getElementById("addFriend").hidden = false;
-  console.log("removed");
+  // console.log("removed");
 }
 
 function addFriend() {
@@ -90,7 +93,7 @@ function addFriend() {
   var db = firebase.firestore();
   var friendId = window.location.href.split("=")[1];
   db.collection("people").doc(id).update({
-    friends: friendId
+    friends: firebase.firestore.FieldValue.arrayUnion(friendId)
   });
 
   document.getElementById("addFriend").hidden = true;
@@ -151,11 +154,8 @@ function saveChanges() {
 // }
 
 document.addEventListener('DOMContentLoaded', function() {
-    console.log("name is: " + name);
     firebase.auth().onAuthStateChanged(authStateObserver);
     var vals = window.location.search.split("=");
-    // id = firebase.auth().currentUser.displayName;
-    // console.log("name in profile: " + id);
     var db = firebase.firestore();
     db.collection("people").doc(vals[1]).onSnapshot(function (doc) {
       var friendIds = doc.data().friends;
@@ -167,18 +167,36 @@ document.addEventListener('DOMContentLoaded', function() {
             document.getElementById("friends").innerHTML += "<a href=\"profile.html?id=" + doc.id + "\"/>" + doc.data().name + "</a><br>";
           });
         }
-      });
+    });
+    
+    db.collection("people").doc(id).onSnapshot(function (docu) {
+      var currUserFriendIds = docu.data().friends;
 
       var currHTML = window.location.href.split("=")[1];
-      if (currHTML != id) {
+      console.log(currHTML);
+      console.log(currUserFriendIds);
+      if (currHTML != id && currUserFriendIds.includes(currHTML)) { //not the user's profile and curr page is a friend
         document.getElementById("removeFriend").hidden = false;
-        document.getElementById("editMyProfile").setAttribute('hidden', false);
+        document.getElementById("addFriend").hidden = true;
+        document.getElementById("editMyProfile").setAttribute('hidden', true);
         document.getElementById("name").innerText = doc.data().name;
         document.getElementById("bio").innerText = doc.data().bio;
-      } else {
+        console.log("is friend");
+      }else if(currHTML != id && !currUserFriendIds.includes(currHTML)){//not the user's profile and curr page is not friend
         document.getElementById("removeFriend").hidden = true;
+        document.getElementById("addFriend").hidden = false;
+        document.getElementById("editMyProfile").setAttribute('hidden', true);
+        document.getElementById("name").innerText = doc.data().name;
+        document.getElementById("bio").innerText = doc.data().bio;
+        console.log("not friend");
+      }else {//the user's profile
+        document.getElementById("removeFriend").hidden = true;
+        document.getElementById("addFriend").hidden = false;
+        document.getElementById("editMyProfile").setAttribute('hidden', false);
+        console.log("remove hidden");
       }
-    });
+    }); 
+  });
 
 
 
