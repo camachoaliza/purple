@@ -52,10 +52,7 @@ def writeLinks(f, links):
             if (i < num_articles):
                 title = getTitle(link)
                 if (title != ""):
-                    if (i == num_articles - 1):
-                        f.write(title + ", " + link)
-                    else:
-                        f.write(title + ", " + link + "\n")
+                    f.write(title + ",, " + link + "\n")
                     i += 1
         except:
             print ("CAUGHT ERROR")

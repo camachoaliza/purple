@@ -27,6 +27,12 @@
   <style>
     #createPost {
       margin-bottom: 20px;
+      background-color: white;
+      padding: 20px;
+      border-radius: 5px;
+    }
+    .input{
+      margin-bottom: 6px;
     }
   </style>
 
@@ -88,53 +94,116 @@
     <div class="container">
       <div class="row">
         <div class="col-md-8">
-          <h1 class="section-heading">News Feed</h1>
+          <h1>Write a Post</h1>
           <div id="createPost">
-            <h4>Share your thoughts!</h4>
-            <input type="text" id="post" name="name" maxlength="400">
-            <button id="submitPost">Submit Post</button>
+            <p id="error" style="color:red"></p>
+            <div class="input">
+              <span>Which article did you read?</span>
+              <select id="articles" name="articles" style="width:600px">
+              </select>
+            </div>
+
+            <div class="input">
+              <p style="margin:0px;">What are your thoughts?</p>
+              <textarea id="post" name="post" style="width:600px"></textarea>
+            </div>
+
+            <button id="submitPost" type="submit">Post</button>
           </div>
-          <div id="posts"></div>
+
+          <div id="posts">
+            <h1>See What Others Wrote</h1>
+          </div>
         </div>
       </div>
     </div>
   </section>
 
+  <script src="purple.js"></script>
   <script>
-    var date = new Date();
+    var articleTitles = [];
+
+    var articles = readTextFile("cnnLinks.txt");
+    articles.forEach(function(article) {
+      if (article != "") {
+        var title = article.split(",, ")[0];
+        articleTitles.push(title);
+      }
+    });
+
+    // NYT
+    articles = readTextFile("nytLinks.txt");
+    articles.forEach(function(article) {
+      if (article != "") {
+        var title = article.split(",, ")[0];
+        articleTitles.push(title);
+      }
+    });
+
+    // FOX
+    articles = readTextFile("foxLinks.txt");
+    articles.forEach(function(article) {
+      if (article != "") {
+        var title = article.split(",, ")[0];
+        articleTitles.push(title);
+      }
+    });
+
+    articleTitles.forEach(function(title) {
+      document.getElementById("articles").innerHTML += "<option value=\""+ title +"\">" + title + "</option>";
+    });
+
     document.addEventListener('DOMContentLoaded', function() {
+        var date = new Date();
         firebase.auth().onAuthStateChanged(authStateObserver);
         var vals = window.location.search.split("=");
         var db = firebase.firestore();
 
         var name;
-        var friendIds;
+        var friends;
         db.collection("people").doc(vals[1]).onSnapshot(function (doc) {
-            name = doc.data().name;
-           friendIds = doc.data().friends.split(",");
-           friendIds.push(vals[1]);
+           name = doc.data().name;
+           friends = doc.data().friends;
+           friends.push(vals[1]);
         });
-        console.log(friendIds);
+
         function submitPost() {
-          db.collection("posts").doc().set({
-            p_id: vals[1],
-            text: "hello", //get message from input
-            time: date,
-            name: name,
-          });
-          alert("Post sucessfully submitted");
+          document.getElementById("error").text = "";
+          var post = document.getElementById("post").value;
+          var e = document.getElementById("articles");
+          var article = e.options[e.selectedIndex].value;
+
+          if (post.length >= 140 && post.length <= 1000) {
+            db.collection("posts").doc().set({
+              p_id: vals[1],
+              article: article,
+              text: post,
+              time: date,
+              name: name,
+            });
+            //reload page
+            // window.location.reload(false);
+
+          } else if (post.length < 140) {
+            document.getElementById("error").innerHTML = "Min. 140 characters. Your post has " + post.length + " characters.";
+          } else {
+            document.getElementById("error").innerHTML = "Max. 1000 characters. Your post has " + post.length + " characters.";
+          }
         }
         document.getElementById("submitPost").onclick = submitPost;
 
         db.collection("posts").get().then(function(querySnapshot) {
           querySnapshot.forEach(function(doc) {
+            console.log(friends);
             var poster = doc.data().p_id;
-            if (friendIds.indexOf(poster) != -1) {
+            poster = poster.toString();
+            console.log(poster);
+            if (friends.indexOf(poster) != -1) {
               var time = doc.data().time.toDate();
               time = time.getFullYear() + "/" + time.getDate() + "/" + (time.getMonth() + 1);
 
               document.getElementById("posts").innerHTML +=
-              "<div class=\"card\"> <div class=\"card-header\">From CNN: Education Policy</div>" +
+              "<div class=\"card\"> <div class=\"card-header\">"+ doc.data().article +"</div>" +
               "<div class=\"card-body\">" +
               "<p class=\"card-text\">" + doc.data().text + "</p>" +
               "<p id=\"name\">" + doc.data().name + "</p>" +
@@ -179,7 +248,7 @@
 
   <!-- Custom scripts for this template -->
   <script src="js/new-age.min.js"></script>
-  <script src="purple.js"></script>
+
 </body>
 
 </html>
