@@ -266,41 +266,42 @@
     var db = firebase.firestore();
 
     //get current user
-
-    db.collection("people").get().then(function(querySnapshot) {
-      var people_ls = [];
-      var points_ls = [];
-      var colors_ls = [];
-      //load all data from database
-      querySnapshot.forEach(function(doc) {
-        people_ls.push(doc.data().name);
-        points_ls.push(doc.data().points);
-        colors_ls.push(doc.data().color);
-      });
-      //new elements
-      var p = "";
-      var s = "";
-      var c = "";
-      //sort the elements from highest to lowest score
-      while(points_ls.length>0){
-        var max_points = Math.max.apply(null, points_ls);
-        var max_index = points_ls.indexOf(max_points);
-        //append info of highest score
-        p += "<p>" + people_ls[max_index] + "</p>";
-        s += "<p>" + points_ls[max_index] + "</p>";
-        c += "<p>" + colors_ls[max_index] + "</p>";
-        //delete highest score
-        people_ls.splice(max_index,1);
-        points_ls.splice(max_index,1);
-        colors_ls.splice(max_index,1);
-      }
-      //add info to associated IDs in HTML
-      document.getElementById("user").innerHTML = p;
-      document.getElementById("score").innerHTML = s;
-      document.getElementById("color").innerHTML = c;
-    });
-
     db.collection("people").doc(vals[1]).onSnapshot(function (doc) {
+      var friends = doc.data().friends;
+      db.collection("people").get().then(function(querySnapshot) {
+        var people_ls = [];
+        var points_ls = [];
+        var colors_ls = [];
+        //load all data from database
+        querySnapshot.forEach(function(doc) {
+          if (friends.indexOf(doc.data().uid) != -1) {
+            people_ls.push(doc.data().name);
+            points_ls.push(doc.data().points);
+            colors_ls.push(doc.data().color);
+          }
+        });
+        //new elements
+        var p = "";
+        var s = "";
+        var c = "";
+        //sort the elements from highest to lowest score
+        while(points_ls.length>0){
+          var max_points = Math.max.apply(null, points_ls);
+          var max_index = points_ls.indexOf(max_points);
+          //append info of highest score
+          p += "<p>" + people_ls[max_index] + "</p>";
+          s += "<p>" + points_ls[max_index] + "</p>";
+          c += "<p>" + colors_ls[max_index] + "</p>";
+          //delete highest score
+          people_ls.splice(max_index,1);
+          points_ls.splice(max_index,1);
+          colors_ls.splice(max_index,1);
+        }
+        //add info to associated IDs in HTML
+        document.getElementById("user").innerHTML = p;
+        document.getElementById("score").innerHTML = s;
+        document.getElementById("color").innerHTML = c;
+      });
       var name = doc.data().name;
        var numRight = doc.data().numRight;
        var numLeft = doc.data().numLeft;
@@ -350,7 +351,7 @@
 
        Plotly.newPlot('myDiv', data, layout, {showSendToCloud:true});
     });
-
+    
     db.collection("posts").get().then(function(querySnapshot) {
       var posts = [];
       var i = 0;
