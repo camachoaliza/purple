@@ -185,6 +185,9 @@
 
     firebase.auth().onAuthStateChanged(authStateObserver);
     var db = firebase.firestore();
+
+    //get current user
+    
     db.collection("people").get().then(function(querySnapshot) {
       var people_ls = [];
       var points_ls = [];
