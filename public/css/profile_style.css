@@ -12,6 +12,14 @@
   text-align: center;
 }
 
+#friend_leaderboard {
+  margin-top: -250px;
+}
+
+#myDiv {
+  margin-left: 150px;
+}
+
 .profile-userpic img {
   float: none;
   display:inline-block;

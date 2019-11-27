@@ -1,9 +1,31 @@
 var id;
+var name;
+var bio;
 var numClickEdits = 0;
 
 function signIn() {
   var provider = new firebase.auth.GoogleAuthProvider();
   firebase.auth().signInWithPopup(provider);
+}
+
+var fileTag = document.getElementById("filetag"),
+    preview = document.getElementById("preview");
+
+
+function changeImage(input) {
+  var reader;
+
+  if (input.files && input.files[0]) {
+    reader = new FileReader();
+
+    reader.onload = function(e) {
+      // preview.setAttribute('src', e.target.result);
+      document.getElementById("prof_pic").setAttribute('src', e.target.result);
+    }
+
+    reader.readAsDataURL(input.files[0]);
+  }
+  // document.getElementById("prof_pic").hidden = true;
 }
 
 function signOut() {
@@ -13,10 +35,9 @@ function signOut() {
 
 function authStateObserver(user) {
   if (user) { // User is signed in!
-    console.log("USER SIGNED IN there");
     id = firebase.auth().currentUser.uid;
     name = firebase.auth().currentUser.displayName;
-    console.log(name);
+    bio = firebase.auth().currentUser.bio;
     document.getElementById("profile").href = "profile.html?id=" + id;
     document.getElementById("forum").href = "feed.html?id=" + id;
     document.getElementById("leaderboard").href = "leaderboard.html?id=" + id;
@@ -31,9 +52,50 @@ function authStateObserver(user) {
   }
 }
 
+function removeFriend() {
+  console.log("friends are: " + friends);
+  var db = firebase.firestore();
+  var peopleRef = db.collection("people");
+  var friendId = window.location.href.split("=")[1];
+
+  // peopleRef.get().then(function(doc) {
+  //   console.log(doc);
+  // })
+  // var db = firebase.firestore();
+  // db.collection("people").doc(id).update({
+  //   bio: document.getElementById("bio").innerText,
+  //   name: document.getElementById("name").innerText,
+  // });
+
+  // db.collection("people").doc(id).onSnapshot(function (doc) {
+  //   friendIds = doc.data().friends.split(",");
+  // });
+  //
+  // db.collection("people").doc(id).update({
+  //       friends: friendsIds
+  //     });
+
+  db.collection("people").doc(id).update({
+    friends: ""
+  });
+
+  document.getElementById("removeFriend").hidden = true;
+  document.getElementById("addFriend").hidden = false;
+  console.log("removed");
+}
+
 function addFriend() {
-  document.getElementById("addFriend").classList = 'btn btn-success btn-sm';
-  document.getElementById("addFriend").innerText = "Added";
+  // document.getElementById("addFriend").classList = 'btn btn-success btn-sm';
+  // document.getElementById("addFriend").innerText = "Added";
+  var db = firebase.firestore();
+  var friendId = window.location.href.split("=")[1];
+  db.collection("people").doc(id).update({
+    friends: friendId
+  });
+
+  document.getElementById("addFriend").hidden = true;
+  document.getElementById("removeFriend").hidden = false;
+  console.log("added");
 }
 
 // function getPurple() {
@@ -56,6 +118,8 @@ function editProfile() {
   numClickEdits += 1;
   document.getElementById("bio").setAttribute('contenteditable', 'true');
   document.getElementById("name").setAttribute('contenteditable', 'true');
+  document.getElementById("filetag").hidden = false;
+  document.getElementById("preview").hidden = false;
   document.getElementById("editMyProfile").setAttribute('class', "btn btn-success btn-sm");
   document.getElementById("editMyProfile").innerText = "Save Changes";
 
@@ -68,6 +132,8 @@ function editProfile() {
 function saveChanges() {
   document.getElementById("bio").setAttribute('contenteditable', 'false');
   document.getElementById("name").setAttribute('contenteditable', 'false');
+  document.getElementById("filetag").hidden = true;
+  document.getElementById("filetag").hidden = true;
   document.getElementById("editMyProfile").setAttribute('class', "btn btn-secondary btn-sm");
   document.getElementById("editMyProfile").innerText = "Edit Profile";
 
@@ -85,6 +151,7 @@ function saveChanges() {
 // }
 
 document.addEventListener('DOMContentLoaded', function() {
+    console.log("name is: " + name);
     firebase.auth().onAuthStateChanged(authStateObserver);
     var vals = window.location.search.split("=");
     // id = firebase.auth().currentUser.displayName;
@@ -94,6 +161,7 @@ document.addEventListener('DOMContentLoaded', function() {
     db.collection("people").doc(vals[1]).onSnapshot(function (doc) {
       var friendIds = doc.data().friends.split(",");
       document.getElementById("name").innerText = doc.data().name;
+      document.getElementById("bio").innerText = doc.data().bio;
 
       friendIds.forEach(function(friend) {
         if (friend !== "") {
@@ -102,7 +170,19 @@ document.addEventListener('DOMContentLoaded', function() {
           });
         }
       });
+
+      var currHTML = window.location.href.split("=")[1];
+      if (currHTML != id) {
+        document.getElementById("removeFriend").hidden = false;
+        document.getElementById("editMyProfile").setAttribute('hidden', false);
+        document.getElementById("name").innerText = doc.data().name;
+        document.getElementById("bio").innerText = doc.data().bio;
+      } else {
+        document.getElementById("removeFriend").hidden = true;
+      }
     });
+
+
 
     try {
         let app = firebase.app()
@@ -179,8 +259,8 @@ var data = [{
 
 var layout = {
   title: 'Purple Level',
-  height: 400,
-  width: 400,
+  height: 550,
+  width: 550,
   paper_bgcolor: 'rgba(0,0,0,0)',
   grid: {rows: 1, columns: 1},
   showlegend: false,
@@ -198,7 +278,6 @@ var layout = {
 };
 
 Plotly.newPlot('myDiv', data, layout, {showSendToCloud:true});
-
 function readTextFile(file) {
   var allText;
   var rawFile = new XMLHttpRequest();
@@ -213,3 +292,6 @@ function readTextFile(file) {
   rawFile.send(null);
   return allText.split("\n");
 }
+fileTag.addEventListener("change", function() {
+  changeImage(this);
+});
