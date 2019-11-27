@@ -199,7 +199,7 @@
       <div class="row">
         <div class="col-md-4">
           <div id="activity">
-            <h2>Your Activity</h2>
+            <h2>Activity</h2>
           </div>
         </div>
         <div class="col-md-8">
@@ -267,6 +267,7 @@
 
     db.collection("people").doc(vals[1]).onSnapshot(function (doc) {
       var friends = doc.data().friends;
+      friends.push(vals[1]);
       db.collection("people").get().then(function(querySnapshot) {
         var people_ls = [];
         var points_ls = [];
@@ -353,7 +354,7 @@
 
        Plotly.newPlot('myDiv', data, layout, {showSendToCloud:true});
     });
-    
+
     db.collection("posts").get().then(function(querySnapshot) {
       var posts = [];
       var i = 0;
