@@ -271,24 +271,26 @@
       var people_ls = [];
       var points_ls = [];
       var colors_ls = [];
+      var id_ls = [];
       //load all data from database
       querySnapshot.forEach(function(doc) {
         people_ls.push(doc.data().name);
         points_ls.push(doc.data().points);
         colors_ls.push(doc.data().color);
-      });
-      //new elements
-      var p = "";
-      var s = "";
-      var c = "";
-      //sort the elements from highest to lowest score
-      while(points_ls.length>0){
-        var max_points = Math.max.apply(null, points_ls);
-        var max_index = points_ls.indexOf(max_points);
-        //append info of highest score
-        p += "<p>" + people_ls[max_index] + "</p>";
-        s += "<p>" + points_ls[max_index] + "</p>";
-        c += "<p>" + colors_ls[max_index] + "</p>";
+        id_ls.push(doc.id);
+        });
+        //new elements
+        var p = "";
+        var s = "";
+        var c = "";
+        //sort the elements from highest to lowest score
+        while(points_ls.length>0){
+          var max_points = Math.max.apply(null, points_ls);
+          var max_index = points_ls.indexOf(max_points);
+          //append info of highest score
+          p += "<p>" +"<a href=\"profile.html?id="+ id_ls[max_index] + "\"/>"+ people_ls[max_index]+ "</a>"+ "</p>";
+          s += "<p>" + points_ls[max_index] + "</p>";
+          c += "<p>" + colors_ls[max_index] + "</p>";
         //delete highest score
         people_ls.splice(max_index,1);
         points_ls.splice(max_index,1);
