@@ -157,14 +157,12 @@ document.addEventListener('DOMContentLoaded', function() {
     // id = firebase.auth().currentUser.displayName;
     // console.log("name in profile: " + id);
     var db = firebase.firestore();
-
     db.collection("people").doc(vals[1]).onSnapshot(function (doc) {
-      var friendIds = doc.data().friends.split(",");
+      var friendIds = doc.data().friends;
       document.getElementById("name").innerText = doc.data().name;
       document.getElementById("bio").innerText = doc.data().bio;
-
       friendIds.forEach(function(friend) {
-        if (friend !== "") {
+        if (friend !== null) {
           db.collection("people").doc(friend).onSnapshot(function(doc) {
             document.getElementById("friends").innerHTML += "<a href=\"profile.html?id=" + doc.id + "\"/>" + doc.data().name + "</a><br>";
           });
