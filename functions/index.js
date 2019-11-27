@@ -22,5 +22,6 @@ exports.setupUsers = functions.auth.user().onCreate(async (user) => {
     points: 0,
     friends: [],
     bio: "",
+    uid: user.uid,
   });
 });
