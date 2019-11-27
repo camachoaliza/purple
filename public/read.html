@@ -78,116 +78,38 @@
 
   <section class="">
     <div class="container">
-      <div class="row">
-        <h2 class="section-heading">Read About the 2020 Elections</h2>
+      <div class="row" style="text-align:center; display:block;">
+        <h1 class="section-heading">Read About the 2020 Elections</h1>
+      </div>
+
+      <div class="row" style="margin-bottom: 5px;">
+        <p id="message" style="color: #7120fc;"></p>
       </div>
       <div class="row">
         <div class="col-md-4">
-          <h1>Left-Leaning News Sources</h1>
+          <h4>Left-Leaning News Sources</h4>
           <p id="left"></p>
           <div id="nyt">
-            <h3>New York Times</h3>
+            <h5>New York Times</h5>
           </div>
         </div>
         <div class="col-md-4">
-          <h1>Centrist News Sources</h1>
+          <h4>Centrist News Sources</h4>
           <p id="center"></p>
           <div id="cnn">
-            <h3>CNN</h3>
+            <h5>CNN</h5>
           </div>
         </div>
         <div class="col-md-4">
-          <h1>Right-Leaning News Sources</h1>
+          <h4>Right-Leaning News Sources</h4>
           <p id="right"></p>
           <div id="fox">
-            <h3>Fox News</h3>
+            <h5>Fox News</h5>
           </div>
         </div>
       </div>
     </div>
   </section>
-
-<script type="text/javascript">
-  document.addEventListener('DOMContentLoaded', function() {
-      firebase.auth().onAuthStateChanged(authStateObserver);
-      var vals = window.location.search.split("=");
-      var db = firebase.firestore();
-      var currentUser = db.collection("people").doc(vals[1]);
-
-      var name;
-      var color;
-      var numRight;
-      var numCenter;
-      var numLeft;
-
-      currentUser.onSnapshot(function (doc) {
-         name = doc.data().name;
-         color = doc.data().color;
-      });
-
-      if (color == null) {
-        currentUser.update({
-            color: 'white',
-            numRight: 0,
-            numCenter: 0,
-            numLeft: 0,
-        });
-      }
-
-      try {
-          let app = firebase.app()
-          let features = ['auth', 'database', 'messaging', 'storage'] .filter(feature => typeof app[feature] === 'function');
-       } catch (e) {
-           console.error(e);
-       }
-  });
-
-    function readTextFile(file) {
-      var allText;
-      var rawFile = new XMLHttpRequest();
-      rawFile.open("GET", file, false);
-      rawFile.onreadystatechange = function () {
-          if (rawFile.readyState === 4) {
-              if(rawFile.status === 200 || rawFile.status == 0) {
-                  allText = rawFile.responseText;
-              }
-          }
-      }
-      rawFile.send(null);
-      return allText.split("\n");
-    }
-
-    // CNN
-    document.getElementById("cnn").innerHTML += "<ul>";
-    var articles = readTextFile("cnnLinks.txt");
-    articles.forEach(function(article) {
-      var title = article.split(", ")[0];
-      var link = article.split(", ")[1];
-      document.getElementById("cnn").innerHTML += "<li><a href=\"" + link + "\">" + title + "</a></li>";
-    });
-    document.getElementById("cnn").innerHTML += "</ul>";
-
-    // NYT
-    document.getElementById("nyt").innerHTML += "<ul>";
-    var articles = readTextFile("nytLinks.txt");
-    articles.forEach(function(article) {
-      var title = article.split(", ")[0];
-      var link = article.split(", ")[1];
-      document.getElementById("nyt").innerHTML += "<li><a href=\"" + link + "\">" + title + "</a></li>";
-    });
-    document.getElementById("nyt").innerHTML += "</ul>";
-
-    // FOX
-    document.getElementById("fox").innerHTML += "<ul>";
-    var articles = readTextFile("foxLinks.txt");
-    articles.forEach(function(article) {
-      var title = article.split(", ")[0];
-      var link = article.split(", ")[1];
-      document.getElementById("fox").innerHTML += "<li><a href=\"" + link + "\">" + title + "</a></li>";
-    });
-    document.getElementById("fox").innerHTML += "</ul>";
-</script>
-
   <footer>
     <div class="container">
       <p>&copy; Your Website 2019. All Rights Reserved.</p>
@@ -215,6 +137,7 @@
   <!-- Custom scripts for this template -->
   <script src="js/new-age.min.js"></script>
   <script src="purple.js"></script>
+  <script src="read.js"></script>
 </body>
 
 </html>
