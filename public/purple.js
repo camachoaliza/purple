@@ -189,11 +189,11 @@ document.addEventListener('DOMContentLoaded', function() {
         document.getElementById("name").innerText = doc.data().name;
         document.getElementById("bio").innerText = doc.data().bio;
         console.log("not friend");
-      }else {//the user's profile
+      }else{//the user's profile
         document.getElementById("removeFriend").hidden = true;
         document.getElementById("addFriend").hidden = true;
         document.getElementById("editMyProfile").setAttribute('hidden', false);
-        console.log("remove hidden");
+        console.log("is curr user");
       }
     });
   });
