@@ -85,20 +85,9 @@
             <!-- <a href="#download" class="btn btn-outline btn-xl js-scroll-trigger">Sign up/Log in</a> -->
           </div>
         </div>
-        <div class="col-lg-5 my-auto">
-          <div class="device-container">
-            <div class="device-mockup iphone6_plus portrait white">
-              <div class="device">
-                <div class="screen">
-                  <!-- Demo image for screen mockup, you can put an image here, some HTML, an animation, video, or anything else! -->
-                  <img src="img/demo-screen-1.jpg" class="img-fluid" alt="">
-                </div>
-                <!-- <div class="button"> -->
-                  <!-- You can hook the "home button" to some JavaScript events or just remove it -->
-                <!-- </div> -->
-              </div>
-            </div>
-          </div>
+        <div class="col-lg-5 my-auto" style="width: 350px; background:rgba(0,0,0,0.2); text-align:center;padding:10px; position:fixed; right:0; top:200px;border-right:5px solid black;">
+          <p>COUNTDOWN TO 2020 ELECTIONS</p>
+          <h5 id="demo"></h5>
         </div>
       </div>
     </div>
@@ -120,6 +109,36 @@
       </ul>
     </div>
   </footer>
+  <script>
+// Set the date we're counting down to
+var countDownDate = new Date("Nov 3, 2020").getTime();
+
+// Update the count down every 1 second
+var x = setInterval(function() {
+
+  // Get today's date and time
+  var now = new Date().getTime();
+
+  // Find the distance between now and the count down date
+  var distance = countDownDate - now;
+
+  // Time calculations for days, hours, minutes and seconds
+  var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+  var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+  var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+  var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+  // Display the result in the element with id="demo"
+  document.getElementById("demo").innerHTML = days + "d " + hours + "h "
+  + minutes + "m " + seconds + "s ";
+
+  // If the count down is finished, write some text
+  if (distance < 0) {
+    clearInterval(x);
+    document.getElementById("demo").innerHTML = "EXPIRED";
+  }
+}, 1000);
+</script>
 
   <!-- Bootstrap core JavaScript -->
   <script src="vendor/jquery/jquery.min.js"></script>

@@ -112,7 +112,7 @@
           </div>
 
           <div id="posts">
-            <h1>See What Others Wrote</h1>
+            <h1>What Your Friends Wrote</h1>
           </div>
         </div>
       </div>
@@ -167,7 +167,7 @@
            friends.push(vals[1]);
         });
 
-        function submitPost() {
+        function submitPost(fn) {
           document.getElementById("error").text = "";
           var post = document.getElementById("post").value;
           var e = document.getElementById("articles");
@@ -181,9 +181,10 @@
               time: date,
               name: name,
             });
-            //reload page
-            // window.location.reload(false);
 
+            setTimeout(function() {
+              window.location.reload(false);
+            }, 1000);
           } else if (post.length < 140) {
             document.getElementById("error").innerHTML = "Min. 140 characters. Your post has " + post.length + " characters.";
           } else {
@@ -192,26 +193,60 @@
         }
         document.getElementById("submitPost").onclick = submitPost;
 
-        db.collection("posts").get().then(function(querySnapshot) {
-          querySnapshot.forEach(function(doc) {
-            console.log(friends);
-            var poster = doc.data().p_id;
-            poster = poster.toString();
-            console.log(poster);
-            if (friends.indexOf(poster) != -1) {
-              var time = doc.data().time.toDate();
-              time = time.getFullYear() + "/" + time.getDate() + "/" + (time.getMonth() + 1);
 
-              document.getElementById("posts").innerHTML +=
-              "<div class=\"card\"> <div class=\"card-header\">"+ doc.data().article +"</div>" +
-              "<div class=\"card-body\">" +
-              "<p class=\"card-text\">" + doc.data().text + "</p>" +
-              "<p id=\"name\">" + doc.data().name + "</p>" +
-              "<p class=\"card-text\" id=\"date\">" + time + "</p></div> " +
-              "<div class=\"card-footer\"><p class=\"card-footer-text\">Reply to " + doc.data().name + "</p></div></div>";
+        db.collection("posts").get().then(function(querySnapshot) {
+          var posts = [];
+          querySnapshot.forEach(function(doc) {
+            var time = doc.data().time.toDate();
+            posts.push({
+              poster: (doc.data().p_id).toString(),
+              time: time,
+              article: doc.data().article,
+              name: doc.data().name,
+              text: doc.data().text,
+            });
+          });
+          posts.sort(function(a,b){return b.time-a.time;});
+
+          posts.forEach(function(post){
+            var time = post.time;
+            var minutes = time.getMinutes();
+            minutes = minutes < 10 ? "0" + minutes : minutes;
+            time = time.getFullYear() + "/" + time.getDate() + "/" + (time.getMonth() + 1) + " - " + time.getHours() + ":" + minutes;
+            if (friends.indexOf(post.poster) != -1) {
+                document.getElementById("posts").innerHTML +=
+                "<div class=\"card\"> <div class=\"card-header\">"+ post.article +"</div>" +
+                "<div class=\"card-body\">" +
+                "<p class=\"card-text\">" + post.text + "</p>" +
+                "<a href=\"profile.html?id="+ post.poster +"\" id=\"name\">" + post.name + "</a>" +
+                "<p class=\"card-text\" id=\"date\">" + time + "</p></div> ";
+                // "<div class=\"card-footer\"><a class=\"card-footer-text\">Reply to " +
+                // post.name + "</a></div></div>";
             }
           });
         });
+
+          // console.log(querySnapshot);
+          // querySnapshot.forEach(function(doc) {
+          //   console.log(friends);
+          //   var poster = doc.data().p_id;
+          //   poster = poster.toString();
+          //   console.log(poster);
+          //   if (friends.indexOf(poster) != -1) {
+          //     var time = doc.data().time.toDate();
+          //     time = time.getFullYear() + "/" + time.getDate() + "/" + (time.getMonth() + 1);
+          //
+          //     document.getElementById("posts").innerHTML +=
+          //     "<div class=\"card\"> <div class=\"card-header\">"+ doc.data().article +"</div>" +
+          //     "<div class=\"card-body\">" +
+          //     "<p class=\"card-text\">" + doc.data().text + "</p>" +
+          //     "<a href=\"profile.html?id="+ poster +"\" id=\"name\">" + doc.data().name + "</a>" +
+          //     "<p class=\"card-text\" id=\"date\">" + time + "</p></div> " +
+          //     "<div class=\"card-footer\"><a class=\"card-footer-text\">Reply to " +
+          //     doc.data().name + "</a></div></div>";
+          //   }
+          // });
+        // });
 
         try {
            	let app = firebase.app()
