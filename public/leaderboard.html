@@ -78,36 +78,68 @@
 
   <section class="">
     <div class="container">
-      <div class="row">
-        <h2 class="section-heading">Leaderboard coming soon!</h2>
+      <div class="row justify-content-center">
+        <h2 class="section-heading">Leaderboard</h2>
       </div>
       <div class="row">
-        <div id="leaders"></div>
+        <div class="col h3" style="text-align:center;"><strong>Username</strong></div>
+        <div class="col h3" style="text-align:center;"><strong>Score</strong></div>
+        <div class="col h3" style="text-align:center;"><strong>Color</strong></div>
+      </div>
+      <div class="row">
+        <div class="col h4" id="user" style="text-align:center;"></div>
+        <div class="col h4" id="score" style="text-align:center;"></div>
+        <div class="col h4" id="color" style="text-align:center;"></div>
       </div>
     </div>
   </section>
 
-  <script type="text/javascript">
+  <script>
     document.addEventListener('DOMContentLoaded', function() {
-        firebase.auth().onAuthStateChanged(authStateObserver);
-        var vals = window.location.search.split("=");
-        var db = firebase.firestore();
-        var friendIds;
+        
+      firebase.auth().onAuthStateChanged(authStateObserver);
+      var db = firebase.firestore();
 
-        db.collection("people").doc(vals[1]).onSnapshot(function (doc) {
-           doc.data().friends.split(",").forEach(function(friend) {
-             db.collection("people").doc(friend).onSnapshot(function (doc) {
-                document.getElementById("leaders").innerHTML += doc.data().name;
-             });
-           });
+      db.collection("people").get().then(function(querySnapshot) {
+        var people_ls = [];
+        var points_ls = [];
+        var colors_ls = [];
+        //load all data from database
+        querySnapshot.forEach(function(doc) {
+          people_ls.push(doc.data().name);
+          points_ls.push(doc.data().points);
+          colors_ls.push(doc.data().color);
         });
-
-        try {
-            let app = firebase.app()
-            let features = ['auth', 'database', 'messaging', 'storage'] .filter(feature => typeof app[feature] === 'function');
-         } catch (e) {
-             console.error(e);
-         }
+        //new elements
+        var p = "";
+        var s = "";
+        var c = "";
+        //sort the elements from highest to lowest score
+        while(points_ls.length>0){
+          var max_points = Math.max.apply(null, points_ls);
+          var max_index = points_ls.indexOf(max_points);
+          //append info of highest score
+          p += "<p>" + people_ls[max_index] + "</p>";
+          s += "<p>" + points_ls[max_index] + "</p>";
+          c += "<p>" + colors_ls[max_index] + "</p>";
+          //delete highest score
+          people_ls.splice(max_index,1);
+          points_ls.splice(max_index,1);
+          colors_ls.splice(max_index,1);
+        }
+        //add info to associated IDs in HTML
+        document.getElementById("user").innerHTML = p;
+        document.getElementById("score").innerHTML = s;
+        document.getElementById("color").innerHTML = c;
+      });
+      try {
+        let app = firebase.app();
+        
+        let features = ['auth', 'database', 'messaging', 'storage'].filter(feature => typeof app[feature] === 'function');
+        
+      } catch (e) {
+        console.error(e);
+      }
     });
   </script>
 
